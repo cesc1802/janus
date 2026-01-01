@@ -17,9 +17,15 @@ project/
 ├── internal/
 │   ├── cmd/                          # CLI command handlers
 │   ├── config/                       # Configuration (Phase 2)
-│   ├── driver/                       # Database drivers (Phase 3)
+│   ├── source/                       # Migration source drivers (Phase 3)
+│   │   └── singlefile/               # Single-file up/down migrations
+│   │       ├── parser.go             # Migration file parser
+│   │       ├── parser_test.go        # Parser tests
+│   │       ├── driver.go             # source.Driver implementation
+│   │       └── driver_test.go        # Driver tests
 │   ├── migration/                    # Migration logic (Phase 4)
 │   └── util/                         # Utilities & helpers
+├── migrations/                       # Migration files (Phase 3+)
 ├── go.mod                            # Module definition
 ├── Makefile                          # Build automation
 └── README.md                         # Project documentation
@@ -124,6 +130,77 @@ confirmation := viper.GetBool("environments." + envName + ".require_confirmation
 - Pattern: `MIGRATE_TOOL_ENVIRONMENTS_DEV_DATABASE_URL`
 - Viper auto-converts underscores to nested keys
 - Case-insensitive
+
+---
+
+## Source Driver Standards (Phase 3)
+
+### Migration File Format
+```
+-- +migrate UP
+[SQL statements for upgrade]
+
+-- +migrate DOWN
+[SQL statements for downgrade]
+```
+
+- Filename format: `{version}_{name}.sql` (e.g., `000001_create_users.sql`)
+- Version: numeric, up to 64-bit unsigned integer
+- Name: alphanumeric with underscores, extracted from filename
+- Markers: literal strings `-- +migrate UP` and `-- +migrate DOWN` on separate lines
+- Sections optional: file can have UP-only or DOWN-only content
+
+### Driver Implementation Pattern
+```go
+// Implement source.Driver interface from github.com/golang-migrate/migrate/v4/source
+type CustomDriver struct {
+	path       string
+	migrations map[uint]Migration  // version -> migration data
+	versions   []uint              // sorted ascending
+}
+
+// Core interface methods (all required)
+func (d *CustomDriver) Open(url string) (source.Driver, error)
+func (d *CustomDriver) Close() error
+func (d *CustomDriver) First() (uint, error)
+func (d *CustomDriver) Prev(version uint) (uint, error)
+func (d *CustomDriver) Next(version uint) (uint, error)
+func (d *CustomDriver) ReadUp(version uint) (io.ReadCloser, string, error)
+func (d *CustomDriver) ReadDown(version uint) (io.ReadCloser, string, error)
+```
+
+- Register with: `source.Register("drivername", &CustomDriver{})`
+- Return `os.ErrNotExist` for missing versions/migrations
+- Version list must stay sorted in ascending order
+- ReadUp/ReadDown return (reader, name, error); name is migration name
+
+### Security Considerations
+- Validate path exists and is directory before processing
+- Prevent path traversal: resolve absolute paths, verify resolved path stays within migrations dir
+- Filename validation: reject files not matching expected pattern
+- Handle non-migration files: skip `.md`, invalid names, subdirectories
+- Detect duplicate versions: error if multiple files map to same version
+
+### Testing Pattern
+```go
+func TestDriver_InterfaceCompliance(t *testing.T) {
+	// Verify implements source.Driver
+	var _ source.Driver = (*Driver)(nil)
+}
+
+func TestDriver_Functionality(t *testing.T) {
+	dir := t.TempDir()
+	// Create test migrations with os.WriteFile
+	// Test Open/NewWithPath, First/Next/Prev, ReadUp/ReadDown
+	// Test error cases: missing files, invalid formats, duplicates
+}
+```
+
+- Use `t.TempDir()` for test migrations
+- Test both success & error paths
+- Verify interface compliance with var _ pattern
+- Test version ordering with multiple files
+- Test file skipping (non-.sql, invalid names)
 
 ---
 

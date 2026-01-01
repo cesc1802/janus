@@ -222,10 +222,33 @@ make clean          # Remove bin/ directory
   - GetEnvName() - current environment name
   - IsConfigLoaded() - config file status check
 
+## Completed in Phase 3
+- Single-file source driver (internal/source/singlefile/)
+  - **parser.go:** Migration file parser with regex-based filename validation
+    - `parseMigrationFile()` - Reads & parses .sql files to extract version/name/up/down sections
+    - `parseContent()` - Splits migration into UP & DOWN sections (markers: `-- +migrate UP`, `-- +migrate DOWN`)
+    - `validateFilename()` - Validates filename format: `{version}_{name}.sql` (e.g., `000001_create_users.sql`)
+  - **driver.go:** source.Driver implementation
+    - `Driver` struct - Implements golang-migrate/migrate v4 source.Driver interface
+    - `Open(url)` - Initializes driver from URL: `singlefile://path/to/migrations`
+    - `NewWithPath(path)` - Direct filesystem initialization (bypass URL parsing)
+    - `First()`, `Next()`, `Prev()` - Version navigation with sorted version list
+    - `ReadUp()`, `ReadDown()` - Returns io.ReadCloser for migration content
+    - `scanMigrations()` - Scans directory, validates files, detects duplicates, path traversal checks
+    - `GetMigrations()`, `GetVersions()` - Debugging/status accessors
+  - **Tests (98 test cases across parser_test.go & driver_test.go)**
+    - Content parsing: basic up/down, multiline, partial (up-only/down-only), comments, empty
+    - Filename validation: valid/invalid formats, edge cases
+    - Driver interface: Open, NewWithPath, version navigation, read operations
+    - Error handling: nonexistent paths, non-directories, missing migrations, duplicates
+    - File filtering: skips non-.sql files, invalid filenames, subdirectories
+    - Security: path traversal prevention via absolute path resolution
+- Registered with golang-migrate driver registry as "singlefile"
+- Sample migration file: migrations/000001_create_users.sql (users table DDL)
+
 ---
 
 ## Next Phases
-- Phase 3: Source driver implementation
 - Phase 4: Core migration commands (up, down, status)
 - Phase 5-6: Utility & advanced commands
 - Phase 7-8: Interactive UI & release
