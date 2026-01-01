@@ -418,12 +418,202 @@ DROP TABLE users;
 
 ---
 
+## Utility Commands
+
+### create
+Create a new migration file with standard UP/DOWN template.
+
+```bash
+migrate-tool create <name> [--seq]
+```
+
+**Arguments:**
+- `<name>` - Migration name (sanitized to lowercase alphanumeric + underscores)
+
+**Flags:**
+- `--seq` - Use sequential versioning (default: true). When false, uses timestamp versioning
+
+**Behavior:**
+1. Sanitizes migration name (converts spaces/special chars to underscores)
+2. Validates name is not empty and under 100 characters
+3. Gets migrations path from config or uses default `./migrations`
+4. Creates migrations directory if not exists
+5. Generates next sequential or timestamp version
+6. Creates `.sql` file with migration template
+7. Sets secure file permissions (0600 - owner read/write only)
+
+**Naming Convention:**
+- Input: `create users`, `add-email`, `Create_Users_Table`
+- Output: `create_users`, `add_email`, `create_users_table`
+
+**Examples:**
+```bash
+# Create migration with sequential version
+migrate-tool create create_users_table
+
+# Create migration with timestamp version
+migrate-tool create add_email_to_users --seq=false
+
+# Migration name with spaces (sanitized to underscores)
+migrate-tool create "add post tags"
+```
+
+**Template Output:**
+```
+-- Migration: create_users
+-- Created: 2026-01-01 23:09:15
+
+-- +migrate UP
+-- TODO: Add your UP migration SQL here
+
+
+-- +migrate DOWN
+-- TODO: Add your DOWN migration SQL here
+```
+
+**Output:**
+```
+Created: /path/to/migrations/000001_create_users.sql
+```
+
+**Security:**
+- Path traversal protection via absolute path validation
+- Filename sanitization prevents directory escape
+- File created with restrictive permissions (0600)
+- Name length validated (max 100 chars)
+
+---
+
+### validate
+Validate configuration file and migration files for syntax errors.
+
+```bash
+migrate-tool validate [--env=ENV]
+```
+
+**Flags:**
+- `--env` - Validate specific environment only (default: validates all)
+
+**Behavior:**
+1. Loads and validates config file
+2. Displays environment count
+3. For each environment (or specified env):
+   - Validates environment configuration
+   - Checks migrations path exists
+   - Loads all migration files
+   - Counts migrations
+   - Detects empty UP/DOWN sections
+4. Displays errors (red) and warnings (yellow)
+5. Returns success if no errors, exit code 1 if errors found
+
+**Examples:**
+```bash
+# Validate all environments
+migrate-tool validate
+
+# Validate only production
+migrate-tool validate --env=prod
+
+# Validate staging
+migrate-tool validate --env=staging
+```
+
+**Output (success):**
+```
+Validating configuration...
+  Found 3 environment(s)
+
+Validating migrations for 'dev'...
+  Found 5 migration(s)
+
+Validating migrations for 'staging'...
+  Found 5 migration(s)
+
+Validating migrations for 'prod'...
+  Found 5 migration(s)
+
+─────────────────────────────
+✓ All validations passed
+```
+
+**Output (with warnings):**
+```
+Validating configuration...
+  Found 3 environment(s)
+
+Validating migrations for 'dev'...
+  Found 5 migration(s)
+
+─────────────────────────────
+WARNINGS:
+  ! Env dev: 1 migration(s) with empty UP section
+  ! Env dev: 2 migration(s) with empty DOWN section
+```
+
+**Output (with errors):**
+```
+Validating configuration...
+  Found 0 environment(s)
+
+─────────────────────────────
+ERRORS:
+  ✗ Config: environments required
+```
+
+---
+
+### version
+Display version information including commit hash, build date, and Go runtime details.
+
+```bash
+migrate-tool version
+```
+
+**Behavior:**
+1. Displays version (or "dev" if not set)
+2. Shows git commit hash (or "unknown" if not available)
+3. Shows build date in UTC (or "unknown" if not set)
+4. Shows Go version used to compile binary
+5. Shows OS and architecture information
+
+**Examples:**
+```bash
+migrate-tool version
+```
+
+**Output (Release):**
+```
+migrate-tool 1.2.0
+  commit: a1b2c3d
+  built:  2026-01-01T10:30:00Z
+  go:     go1.25.1
+  os:     darwin/amd64
+```
+
+**Output (Development):**
+```
+migrate-tool dev
+  commit: unknown
+  built:  unknown
+  go:     go1.25.1
+  os:     linux/amd64
+```
+
+**Build Information:**
+- Version: Injected at compile time via `-X main.version`
+- Commit: Short git hash (7 chars) or "none"
+- Date: UTC timestamp in ISO 8601 format
+- Go: Runtime version
+- OS: Platform and architecture
+
+---
+
 ## Version Information
 
 To see installed version:
 
 ```bash
-migrate-tool --version
+migrate-tool version
 ```
 
-(Displays version, git commit, and build date injected at compile time)
+(Displays version, git commit, build date, Go version, and OS/arch information injected at compile time)

@@ -2,11 +2,11 @@
 
 ## Project Overview
 
-Golang migration CLI tool - Phase 1-4 complete. A cross-platform database migration tool with configuration system, validation, migration execution, and status tracking.
+Golang migration CLI tool - Phase 1-5 complete. A cross-platform database migration tool with configuration system, validation, migration execution, status tracking, and utility commands for creating migrations and validating configurations.
 
 **Module:** `github.com/cesc1802/migrate-tool`
 **Go Version:** 1.25.1
-**Total Files:** 30+ files (expanded with migrator & commands)
+**Total Files:** 33+ files (with Phase 5 utility commands)
 
 ---
 
@@ -25,6 +25,9 @@ Golang migration CLI tool - Phase 1-4 complete. A cross-platform database migrat
 │   │   ├── down.go              # "down" command - rollback migrations
 │   │   ├── status.go            # "status" command - show migration status
 │   │   ├── history.go           # "history" command - list migrations
+│   │   ├── create.go            # "create" command - generate new migrations
+│   │   ├── validate.go          # "validate" command - validate config & migrations
+│   │   ├── version.go           # "version" command - show version info
 │   │   ├── *_test.go            # Command tests
 │   │   └── root_test.go         # Root command tests
 │   ├── config/
@@ -155,6 +158,47 @@ Golang migration CLI tool - Phase 1-4 complete. A cross-platform database migrat
   - Command registration verification
   - Flag existence & defaults
   - Error handling for missing config
+
+### 8. Utility Commands (internal/cmd/) - Phase 5
+**Purpose:** Helper commands for migration lifecycle and system information
+
+**Files:**
+- **create.go:**
+  - Command: `migrate-tool create <name> [--seq]`
+  - Name sanitization via regex: replaces spaces/special chars with underscores, converts to lowercase
+  - Version generation: sequential (000001, 000002, etc.) or timestamp-based (unix timestamp)
+  - Template generation: includes migration name, creation timestamp, UP/DOWN markers, TODO comments
+  - Security: path traversal prevention, restrictive file permissions (0600)
+  - Validation: max 100 char name length, empty name rejection
+  - Config integration: reads migrations_path from config or uses ./migrations default
+  - Helper functions: `sanitizeName()`, `getNextSequentialVersion()`, `migrationTemplate()`
+
+- **validate.go:**
+  - Command: `migrate-tool validate [--env=ENV]`
+  - Config validation: loads config, checks syntax and structure
+  - Multi-environment validation: validates all envs or specific env via --env flag
+  - Migration inspection: scans files, counts total/migrations, detects duplicates
+  - Empty section detection: identifies UP/DOWN sections with no SQL content
+  - Output formatting: separates errors (✗), warnings (!), success (✓)
+  - Error handling: returns exit code 1 on errors, 0 on success
+
+- **version.go:**
+  - Command: `migrate-tool version`
+  - Version display: shows compiled version, defaults to "dev" if unset
+  - Commit hash: displays short git commit, defaults to "unknown"
+  - Build date: shows UTC timestamp, defaults to "unknown"
+  - Runtime info: Go version via runtime.Version()
+  - Platform info: OS/arch via runtime.GOOS and runtime.GOARCH
+  - Build-time variables: injected via ldflags from main.go
+  - Helper: SetVersionInfo() to set version variables
+
+**Test Coverage (create_test.go, validate_test.go, version_test.go):**
+  - Name sanitization: spaces, special chars, case conversion
+  - Sequential versioning: empty dir, existing files, non-matching files
+  - Template structure: migration markers, timestamp, name inclusion
+  - Config validation: with/without config, invalid paths
+  - Empty migration detection: empty UP/DOWN sections, warnings
+  - Version output: format, Go version, OS info, dev defaults
 
 ---
 
@@ -335,10 +379,55 @@ make clean          # Remove bin/ directory
 - Status struct with counts: Applied, Pending, Total, Version, Dirty
 - Safety features: dirty state detection & warning messages
 
+## Completed in Phase 5 - Utility Commands
+- Create migration command (internal/cmd/create.go)
+  - `create <name> [--seq]` - Generate new migration files
+  - Name sanitization: converts spaces/special chars to underscores
+  - Sequential versioning: auto-increments numeric version (000001, 000002, etc.)
+  - Timestamp versioning: Unix timestamp when --seq=false
+  - Template generation: includes UP/DOWN markers with TODO placeholders
+  - Migrations directory auto-creation
+  - Security: path traversal prevention, restrictive file permissions (0600)
+  - Name validation: max 100 characters, alphanumeric + underscores
+  - Configuration integration: reads migrations_path from config with ./migrations fallback
+  - Test coverage (create_test.go):
+    - Name sanitization validation (spaces, special chars, case conversion)
+    - Sequential version number generation
+    - File creation with proper template
+    - Integration testing
+
+- Validate command (internal/cmd/validate.go)
+  - `validate [--env=ENV]` - Validate config & migration files
+  - Config validation: checks file syntax, environment count, required fields
+  - Multi-environment support: validate all envs or specific env via --env flag
+  - Migration inspection: scans migration files, counts migrations
+  - Error/warning detection: identifies empty UP/DOWN sections
+  - Output formatting: errors (✗), warnings (!), success (✓) with separator
+  - Environment-specific validation: each env checked for migrations_path existence
+  - Test coverage (validate_test.go):
+    - Config loading & parsing
+    - Missing/invalid paths detection
+    - Empty migration sections handling
+    - Multi-environment validation
+
+- Version command (internal/cmd/version.go)
+  - `version` - Display version & build information
+  - Version display: shows compiled version or "dev" as fallback
+  - Commit info: displays short git hash or "unknown"
+  - Build date: shows UTC timestamp or "unknown"
+  - Runtime info: Go version (via runtime.Version())
+  - Platform info: OS and architecture (via runtime.GOOS, runtime.GOARCH)
+  - Build-time injection: version, commit, date via ldflags
+  - SetVersionInfo() function: sets version variables from main
+  - Test coverage (version_test.go):
+    - Version output verification
+    - Default values for dev builds
+    - Output format validation
+
 ---
 
 ## Next Phases
-- Phase 5: Advanced commands (force, goto, undo)
 - Phase 6: Interactive confirmation & dry-run mode
-- Phase 7-8: UI enhancements & release
+- Phase 7: Advanced features (undo, seed, hooks)
+- Phase 8: UI enhancements & release
 

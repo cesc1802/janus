@@ -16,6 +16,13 @@ project/
 │       └── main.go                   # Executable entry point
 ├── internal/
 │   ├── cmd/                          # CLI command handlers
+│   │   ├── root.go                   # Root command (Phase 1)
+│   │   ├── config_show.go            # Config command (Phase 2)
+│   │   ├── up.go, down.go            # Migration commands (Phase 4)
+│   │   ├── status.go, history.go     # Status commands (Phase 4)
+│   │   ├── create.go                 # Create command (Phase 5)
+│   │   ├── validate.go               # Validate command (Phase 5)
+│   │   └── version.go                # Version command (Phase 5)
 │   ├── config/                       # Configuration (Phase 2)
 │   ├── source/                       # Migration source drivers (Phase 3)
 │   │   └── singlefile/               # Single-file up/down migrations
@@ -23,7 +30,7 @@ project/
 │   │       ├── parser_test.go        # Parser tests
 │   │       ├── driver.go             # source.Driver implementation
 │   │       └── driver_test.go        # Driver tests
-│   ├── migration/                    # Migration logic (Phase 4)
+│   ├── migrator/                     # Migration logic (Phase 4)
 │   └── util/                         # Utilities & helpers
 ├── migrations/                       # Migration files (Phase 3+)
 ├── go.mod                            # Module definition
@@ -287,6 +294,179 @@ func TestDriver_Functionality(t *testing.T) {
 - Verify interface compliance with var _ pattern
 - Test version ordering with multiple files
 - Test file skipping (non-.sql, invalid names)
+
+---
+
+## Phase 5 Utility Command Standards
+
+### Create Command Pattern
+```go
+// Command flag for versioning mode
+var createSeq bool
+
+var createCmd = &cobra.Command{
+	Use:   "create <name>",
+	Short: "Create a new migration file",
+	Args:  cobra.ExactArgs(1),
+	RunE:  runCreate,
+}
+
+func init() {
+	createCmd.Flags().BoolVar(&createSeq, "seq", true, "Use sequential versioning")
+	rootCmd.AddCommand(createCmd)
+}
+
+func runCreate(cmd *cobra.Command, args []string) error {
+	name := args[0]
+
+	// 1. Sanitize input
+	name = sanitizeName(name)
+	if name == "" {
+		return fmt.Errorf("invalid migration name")
+	}
+
+	// 2. Validate constraints
+	if len(name) > 100 {
+		return fmt.Errorf("migration name too long (max 100 chars)")
+	}
+
+	// 3. Resolve paths securely
+	absPath, err := filepath.Abs(migrationsPath)
+	if err != nil {
+		return fmt.Errorf("resolve path: %w", err)
+	}
+
+	// 4. Create directory & file
+	// 5. Verify path security (no traversal)
+	// 6. Write with template
+	// 7. Report success
+}
+
+// Helper: Name sanitization via regex
+func sanitizeName(name string) string {
+	re := regexp.MustCompile(`[^a-zA-Z0-9_]`)
+	name = re.ReplaceAllString(name, "_")
+	name = strings.Trim(name, "_")
+	return strings.ToLower(name)
+}
+
+// Helper: Sequential version generation
+func getNextSequentialVersion(dir string) string {
+	// Read directory, find highest numeric prefix
+	// Return next sequential number (e.g., "000006")
+}
+
+// Helper: Migration template generation
+func migrationTemplate(name string) string {
+	// Return SQL template with UP/DOWN markers and TODO comments
+}
+```
+
+### Validate Command Pattern
+```go
+var validateCmd = &cobra.Command{
+	Use:   "validate",
+	Short: "Validate configuration and migration files",
+	RunE:  runValidate,
+}
+
+func runValidate(cmd *cobra.Command, args []string) error {
+	var errors []string
+	var warnings []string
+
+	// 1. Validate config
+	cfg, err := config.Load()
+	if err != nil {
+		errors = append(errors, fmt.Sprintf("Config: %v", err))
+	}
+
+	// 2. Determine environments to validate
+	var envs []string
+	if envName != "" {
+		envs = append(envs, envName)
+	} else if cfg != nil {
+		for name := range cfg.Environments {
+			envs = append(envs, name)
+		}
+	}
+
+	// 3. Validate each environment
+	for _, env := range envs {
+		// Check path exists
+		// Load migrations
+		// Count & inspect migrations
+		// Detect empty UP/DOWN sections
+	}
+
+	// 4. Format & display results
+	// 5. Return error if any errors found
+}
+```
+
+### Version Command Pattern
+```go
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Show version information",
+	Run:   runVersion,
+}
+
+func runVersion(cmd *cobra.Command, args []string) {
+	// Use fallback defaults for empty values
+	v := version
+	if v == "" {
+		v = "dev"
+	}
+
+	// Display version, commit, date, Go version, OS/arch
+	fmt.Printf("migrate-tool %s\n", v)
+	fmt.Printf("  commit: %s\n", c)
+	fmt.Printf("  built:  %s\n", d)
+	fmt.Printf("  go:     %s\n", runtime.Version())
+	fmt.Printf("  os:     %s/%s\n", runtime.GOOS, runtime.GOARCH)
+}
+
+// SetVersionInfo is called from main.go to inject build info
+func SetVersionInfo(v, c, d string) {
+	version = v
+	commit = c
+	date = d
+}
+```
+
+### File Security Patterns (Phase 5)
+
+**Path Traversal Prevention:**
+```go
+// 1. Resolve to absolute path
+absPath, err := filepath.Abs(userPath)
+if err != nil {
+	return err
+}
+
+// 2. Verify resolved path stays within expected dir
+if !strings.HasPrefix(absPath, expectedDir+string(filepath.Separator)) {
+	return fmt.Errorf("path traversal detected")
+}
+```
+
+**Restrictive File Permissions:**
+```go
+// Create migration files with owner-only read/write (0600)
+// Prevents other users/processes from reading sensitive SQL
+os.WriteFile(fpath, []byte(content), 0600)
+```
+
+**Name Sanitization Patterns:**
+```go
+// Use regex to allow only safe characters
+// Convert to lowercase for consistency
+// Trim leading/trailing underscores
+re := regexp.MustCompile(`[^a-zA-Z0-9_]`)
+name = re.ReplaceAllString(name, "_")
+name = strings.Trim(name, "_")
+name = strings.ToLower(name)
+```
 
 ---
 
