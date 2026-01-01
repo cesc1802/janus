@@ -1,14 +1,18 @@
 package cmd
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var (
-	cfgFile            string
-	envName            string
+	cfgFile               string
+	envName               string
 	version, commit, date string
+	configLoaded          bool
 )
 
 var rootCmd = &cobra.Command{
@@ -27,6 +31,11 @@ func SetVersionInfo(v, c, d string) {
 	version, commit, date = v, c, d
 }
 
+// GetEnvName returns the current environment name
+func GetEnvName() string {
+	return envName
+}
+
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default: ./migrate-tool.yaml)")
@@ -42,5 +51,19 @@ func initConfig() {
 		viper.AddConfigPath(".")
 	}
 	viper.AutomaticEnv()
-	_ = viper.ReadInConfig()
+
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			fmt.Fprintf(os.Stderr, "Error reading config: %v\n", err)
+			os.Exit(1)
+		}
+		// Config file not found is OK for some commands (version, help)
+	} else {
+		configLoaded = true
+	}
+}
+
+// IsConfigLoaded returns whether a config file was found and loaded
+func IsConfigLoaded() bool {
+	return configLoaded
 }
