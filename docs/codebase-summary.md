@@ -2,11 +2,11 @@
 
 ## Project Overview
 
-Golang migration CLI tool - Phase 1-5 complete. A cross-platform database migration tool with configuration system, validation, migration execution, status tracking, and utility commands for creating migrations and validating configurations.
+Golang migration CLI tool - Phase 1-6 complete. A cross-platform database migration tool with configuration system, validation, migration execution, status tracking, and advanced migration control commands (force, goto) for recovery and directed migrations.
 
 **Module:** `github.com/cesc1802/migrate-tool`
 **Go Version:** 1.25.1
-**Total Files:** 33+ files (with Phase 5 utility commands)
+**Total Files:** 35+ files (with Phase 6 advanced migration control)
 
 ---
 
@@ -25,6 +25,8 @@ Golang migration CLI tool - Phase 1-5 complete. A cross-platform database migrat
 │   │   ├── down.go              # "down" command - rollback migrations
 │   │   ├── status.go            # "status" command - show migration status
 │   │   ├── history.go           # "history" command - list migrations
+│   │   ├── force.go             # "force" command - force set version (Phase 6)
+│   │   ├── goto.go              # "goto" command - migrate to specific version (Phase 6)
 │   │   ├── create.go            # "create" command - generate new migrations
 │   │   ├── validate.go          # "validate" command - validate config & migrations
 │   │   ├── version.go           # "version" command - show version info
@@ -129,10 +131,10 @@ Golang migration CLI tool - Phase 1-5 complete. A cross-platform database migrat
   - `MigrationInfo` struct - single migration entry
   - `GetMigrationList(version)` - list all migrations with applied status
 
-### 7. Migration Commands (internal/cmd/) - Phase 4
+### 7. Migration Commands (internal/cmd/) - Phase 4-6
 **Purpose:** CLI subcommands for migration operations
 
-**Files:**
+**Files (Phase 4):**
 - **up.go:**
   - Command: `migrate-tool up [--steps=N] --env=ENV`
   - Flag: `--steps` (default: 0 = apply all)
@@ -154,10 +156,31 @@ Golang migration CLI tool - Phase 1-5 complete. A cross-platform database migrat
   - Output: List of migrations with [x] for applied, [ ] for pending
   - Pagination: Shows "... and N more" if exceeds limit
 
-**Test Coverage (up_test.go, down_test.go, status_test.go, history_test.go):**
+**Files (Phase 6 - Advanced Migration Control):**
+- **force.go:**
+  - Command: `migrate-tool force <version> --env=ENV`
+  - Argument: version (integer, can be 0 or -1)
+  - Behavior: Force set migration version without running migrations
+  - Use case: Recovery from dirty state after failed migration
+  - Warnings: Displays caution warning with current/new version info
+  - Note: No migrations executed (unlike goto)
+  - Examples: reset to initial state (0), clear version (-1)
+
+- **goto.go:**
+  - Command: `migrate-tool goto <version> --env=ENV`
+  - Argument: target version (integer)
+  - Behavior: Migrate up or down to reach specified version
+  - Smart direction detection: UP if target > current, DOWN if target < current
+  - Dirty state check: Prevents migration if DB is dirty
+  - Step counting: Calculates migration count via `countMigrationsBetween()`
+  - Helper function: `countMigrationsBetween(from, to)` - counts migrations in range for display
+
+**Test Coverage (up_test.go, down_test.go, status_test.go, history_test.go, force_test.go, goto_test.go):**
   - Command registration verification
   - Flag existence & defaults
   - Error handling for missing config
+  - Force command: version parsing, dirty state handling
+  - Goto command: direction detection, version validation, dirty state prevention
 
 ### 8. Utility Commands (internal/cmd/) - Phase 5
 **Purpose:** Helper commands for migration lifecycle and system information
@@ -426,8 +449,23 @@ make clean          # Remove bin/ directory
 
 ---
 
+## Completed in Phase 6 - Advanced Migration Control
+- Force command (internal/cmd/force.go)
+  - `force <version>` - Set migration version without executing migrations
+  - Use case: Recovery from dirty state after failed migration
+  - Version can be 0 (reset to initial) or -1 (clear version)
+  - Displays warning with current/new version info
+  - Test coverage (force_test.go): version parsing, error handling
+
+- Goto command (internal/cmd/goto.go)
+  - `goto <version>` - Migrate up or down to specific version
+  - Automatic direction detection based on target vs current version
+  - Dirty state prevention: blocks migration if DB in dirty state
+  - `countMigrationsBetween()` helper: counts migrations in version range for display
+  - Test coverage (goto_test.go): direction detection, validation, dirty state handling
+
 ## Next Phases
-- Phase 6: Interactive confirmation & dry-run mode
-- Phase 7: Advanced features (undo, seed, hooks)
-- Phase 8: UI enhancements & release
+- Phase 7: Interactive confirmation & dry-run mode
+- Phase 8: Advanced features (undo, seed, hooks)
+- Phase 9: UI enhancements & release
 

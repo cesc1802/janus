@@ -80,6 +80,10 @@ ck.md
 *.dll
 *.so
 *.dylib
+migrate-tool
+
+# IDE
+.idea/
 
 # Go migrate tool config (contains credentials)
 migrate-tool.yaml

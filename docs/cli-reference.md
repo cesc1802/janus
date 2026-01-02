@@ -239,6 +239,132 @@ Migration History (env: dev)
 
 ---
 
+#### force
+Force set migration version without running any migrations (for dirty state recovery).
+
+```bash
+migrate-tool force <version> [--env=ENV] [--config=PATH]
+```
+
+**Arguments:**
+- `<version>` - Target version number (integer, can be 0 or -1)
+
+**Flags:**
+- `--env` - Target environment name (default: dev)
+
+**Behavior:**
+1. Validates environment configuration
+2. Parses target version argument
+3. Gets current status for context
+4. Displays warning with current/new version info
+5. Sets version without executing any migration SQL
+6. Used only for recovery from dirty state
+
+**Warning:**
+This command sets version directly in database without running migrations. Only use to recover from dirty state after a failed migration.
+
+**Examples:**
+```bash
+# Reset to initial state after failed migration
+migrate-tool force 0 --env=dev
+
+# Clear version (NilVersion)
+migrate-tool force -1 --env=dev
+
+# Set to specific version when recovery needed
+migrate-tool force 5 --env=staging
+```
+
+**Output:**
+```
+┌─────────────────────────────────────────┐
+│  WARNING: Force Version Change          │
+└─────────────────────────────────────────┘
+Environment: dev
+Current version: 5 (dirty: true)
+New version: 0
+
+This will NOT run any migrations.
+Use this only to recover from dirty state.
+
+Version forced to 0
+```
+
+---
+
+#### goto
+Migrate to a specific version (up or down).
+
+```bash
+migrate-tool goto <version> [--env=ENV] [--config=PATH]
+```
+
+**Arguments:**
+- `<version>` - Target version number (integer)
+
+**Flags:**
+- `--env` - Target environment name (default: dev)
+
+**Behavior:**
+1. Validates environment configuration
+2. Parses target version argument
+3. Gets current status from database
+4. Checks dirty state (blocks migration if dirty)
+5. Determines direction: UP if target > current, DOWN if target < current
+6. Counts migrations between current and target
+7. Applies migrations to reach target version
+8. Returns error if already at target version
+
+**Error Handling:**
+Prevents migration if database is in dirty state. Use `force` command to fix first.
+
+**Examples:**
+```bash
+# Migrate to version 10 (up or down based on current)
+migrate-tool goto 10 --env=dev
+
+# Rollback to version 0 (rollback all)
+migrate-tool goto 0 --env=dev
+
+# Migrate to specific version in staging
+migrate-tool goto 5 --env=staging
+```
+
+**Output (UP):**
+```
+┌─────────────────────────────────────────┐
+│  Migration Target                       │
+└─────────────────────────────────────────┘
+Environment: dev
+Current version: 3
+Target version: 10
+Direction: UP (7 migration(s))
+
+Migrated to version 10
+```
+
+**Output (DOWN):**
+```
+┌─────────────────────────────────────────┐
+│  Migration Target                       │
+└─────────────────────────────────────────┘
+Environment: dev
+Current version: 10
+Target version: 5
+Direction: DOWN (5 migration(s))
+
+Migrated to version 5
+```
+
+**Error (Dirty State):**
+```
+WARNING: Database is in dirty state.
+Use 'migrate-tool force <version>' to fix the dirty state first.
+Error: cannot migrate: database in dirty state at version 5
+```
+
+---
+
 ## Environment Configuration
 
 ### Configuration File (migrate-tool.yaml)
