@@ -28,9 +28,9 @@ else
 fi
 
 # Logging functions
-info() { printf "${BLUE}[INFO]${NC} %s\n" "$1"; }
-success() { printf "${GREEN}[OK]${NC} %s\n" "$1"; }
-warn() { printf "${YELLOW}[WARN]${NC} %s\n" "$1"; }
+info() { printf "${BLUE}[INFO]${NC} %s\n" "$1" >&2; }
+success() { printf "${GREEN}[OK]${NC} %s\n" "$1" >&2; }
+warn() { printf "${YELLOW}[WARN]${NC} %s\n" "$1" >&2; }
 error() { printf "${RED}[ERROR]${NC} %s\n" "$1" >&2; }
 die() { error "$1"; exit 1; }
 
