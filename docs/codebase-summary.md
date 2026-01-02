@@ -651,6 +651,27 @@ make snapshot           # Quick snapshot build for testing
 - **LICENSE** file added (MIT license)
 - Included in all release archives for distribution compliance
 
+## Documentation Structure
+
+### User Guide (docs/user-guide/)
+Comprehensive guide for end-users and operators:
+- **README.md** - User guide overview and navigation
+- **01-getting-started.md** - Installation, basic setup, first migration
+- **02-configuration.md** - Config file structure, environments, env vars
+- **03-creating-migrations.md** - Creating & managing migration files
+- **04-running-migrations.md** - Executing migrations (up/down/status/history)
+- **05-multi-environment.md** - Dev/staging/prod setup patterns
+- **06-troubleshooting.md** - Common issues and solutions
+- **07-ci-cd-integration.md** - GitHub Actions, automation, --auto-approve
+
+### Additional Documentation
+- **codebase-summary.md** - This file; technical architecture overview
+- **code-standards.md** - Code patterns, testing standards, style guide
+- **project-overview-pdr.md** - Project goals, requirements, scope
+- **system-architecture.md** - System design, component interactions
+- **cli-reference.md** - Complete CLI command reference with examples
+- **deployment-guide.md** - Build, release, installation procedures
+
 ## Next Phases
 - Phase 9: Advanced features (undo, seed, hooks)
 - Phase 10: UI enhancements & documentation
