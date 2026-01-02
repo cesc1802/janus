@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+  <!-- Up Arrow -->
+  <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+  <!-- Down Arrow -->
+  <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+</svg>

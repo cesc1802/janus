@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+  <!-- Light rays left -->
+  <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+  <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+  <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+  <!-- Doorway arch -->
+  <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+  <!-- Light rays right -->
+  <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+  <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+  <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+</svg>

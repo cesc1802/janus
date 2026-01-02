@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>migrate-tool Logo Concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-deep-blue: #1a365d;
+      --gold-accent: #d69e2e;
+      --white: #f7fafc;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-900);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-deep-blue);
+      margin-bottom: 12px;
+    }
+
+    .header p {
+      font-size: 1.125rem;
+      color: var(--gray-800);
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Color Palette Section */
+    .palette-section {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 48px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .palette-section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-deep-blue);
+      margin-bottom: 24px;
+    }
+
+    .palette-grid {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .color-swatch {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .swatch-box {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .swatch-box.deep-blue { background: var(--primary-deep-blue); }
+    .swatch-box.gold { background: var(--gold-accent); }
+    .swatch-box.white { background: var(--white); border: 1px solid var(--gray-200); }
+
+    .swatch-info h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+
+    .swatch-info code {
+      font-size: 0.75rem;
+      color: var(--gray-800);
+      background: var(--gray-100);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Logo Section */
+    .logo-section {
+      margin-bottom: 64px;
+    }
+
+    .logo-section h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-deep-blue);
+      margin-bottom: 8px;
+    }
+
+    .logo-section .concept-desc {
+      font-size: 0.95rem;
+      color: var(--gray-800);
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+
+    .logo-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .logo-variations {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .variation {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .variation.light-bg {
+      background: var(--white);
+    }
+
+    .variation.dark-bg {
+      background: var(--primary-deep-blue);
+    }
+
+    .variation-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-800);
+    }
+
+    .variation.dark-bg .variation-label {
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Logo Display */
+    .logo-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    .logo-size {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-size span {
+      font-size: 0.625rem;
+      color: var(--gray-800);
+      font-weight: 500;
+    }
+
+    .variation.dark-bg .logo-size span {
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* Wordmark Display */
+    .wordmark-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .wordmark-combo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .wordmark {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .wordmark-sm { font-size: 1rem; }
+    .wordmark-md { font-size: 1.5rem; }
+    .wordmark-lg { font-size: 2rem; }
+
+    .variation.light-bg .wordmark { color: var(--primary-deep-blue); }
+    .variation.dark-bg .wordmark { color: var(--white); }
+
+    .wordmark .accent { color: var(--gold-accent); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .logo-variations {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 1.75rem;
+      }
+
+      .logo-display {
+        gap: 16px;
+      }
+    }
+
+    /* Section Divider */
+    .divider {
+      height: 1px;
+      background: var(--gray-200);
+      margin: 48px 0;
+    }
+
+    /* Favicon Grid */
+    .favicon-grid {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 48px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .favicon-grid h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-deep-blue);
+      margin-bottom: 24px;
+    }
+
+    .favicon-row {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    .favicon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .favicon-box {
+      background: var(--gray-100);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    .favicon-item span {
+      font-size: 0.625rem;
+      color: var(--gray-800);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>migrate-tool Logo Concepts</h1>
+      <p>Database migration CLI tool branding exploration. Four distinct concepts representing transformation, duality, and precision.</p>
+    </header>
+
+    <!-- Color Palette -->
+    <section class="palette-section">
+      <h2>Color Palette</h2>
+      <div class="palette-grid">
+        <div class="color-swatch">
+          <div class="swatch-box deep-blue"></div>
+          <div class="swatch-info">
+            <h4>Primary Deep Blue</h4>
+            <code>#1a365d</code>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-box gold"></div>
+          <div class="swatch-info">
+            <h4>Gold Accent</h4>
+            <code>#d69e2e</code>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-box white"></div>
+          <div class="swatch-info">
+            <h4>White</h4>
+            <code>#f7fafc</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Concept 1: Janus Dual Faces -->
+    <section class="logo-section">
+      <h2>Concept 1: Janus Dual Faces</h2>
+      <p class="concept-desc">Two profile silhouettes facing opposite directions, forming a gateway in negative space. Represents bidirectional migration and the Roman god Janus who oversees transitions.</p>
+
+      <div class="logo-card">
+        <div class="logo-variations">
+          <!-- Light Background -->
+          <div class="variation light-bg">
+            <span class="variation-label">Light Background</span>
+            <div class="logo-display">
+              <div class="logo-size">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <path d="M16 16 C16 16, 22 20, 22 32 C22 44, 16 48, 16 48 L28 48 L28 16 Z" fill="#f7fafc"/>
+                  <path d="M48 16 C48 16, 42 20, 42 32 C42 44, 48 48, 48 48 L36 48 L36 16 Z" fill="#f7fafc"/>
+                  <rect x="28" y="16" width="8" height="32" fill="#d69e2e"/>
+                </svg>
+                <span>32px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <path d="M16 16 C16 16, 22 20, 22 32 C22 44, 16 48, 16 48 L28 48 L28 16 Z" fill="#f7fafc"/>
+                  <path d="M48 16 C48 16, 42 20, 42 32 C42 44, 48 48, 48 48 L36 48 L36 16 Z" fill="#f7fafc"/>
+                  <rect x="28" y="16" width="8" height="32" fill="#d69e2e"/>
+                </svg>
+                <span>64px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="128" height="128" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <path d="M16 16 C16 16, 22 20, 22 32 C22 44, 16 48, 16 48 L28 48 L28 16 Z" fill="#f7fafc"/>
+                  <path d="M48 16 C48 16, 42 20, 42 32 C42 44, 48 48, 48 48 L36 48 L36 16 Z" fill="#f7fafc"/>
+                  <rect x="28" y="16" width="8" height="32" fill="#d69e2e"/>
+                </svg>
+                <span>128px</span>
+              </div>
+            </div>
+            <div class="wordmark-row">
+              <div class="wordmark-combo">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <path d="M16 16 C16 16, 22 20, 22 32 C22 44, 16 48, 16 48 L28 48 L28 16 Z" fill="#f7fafc"/>
+                  <path d="M48 16 C48 16, 42 20, 42 32 C42 44, 48 48, 48 48 L36 48 L36 16 Z" fill="#f7fafc"/>
+                  <rect x="28" y="16" width="8" height="32" fill="#d69e2e"/>
+                </svg>
+                <span class="wordmark wordmark-lg">migrate<span class="accent">-</span>tool</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dark Background -->
+          <div class="variation dark-bg">
+            <span class="variation-label">Dark Background</span>
+            <div class="logo-display">
+              <div class="logo-size">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 16 C16 16, 22 20, 22 32 C22 44, 16 48, 16 48 L28 48 L28 16 Z" fill="#f7fafc"/>
+                  <path d="M48 16 C48 16, 42 20, 42 32 C42 44, 48 48, 48 48 L36 48 L36 16 Z" fill="#f7fafc"/>
+                  <rect x="28" y="16" width="8" height="32" fill="#d69e2e"/>
+                </svg>
+                <span>32px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 16 C16 16, 22 20, 22 32 C22 44, 16 48, 16 48 L28 48 L28 16 Z" fill="#f7fafc"/>
+                  <path d="M48 16 C48 16, 42 20, 42 32 C42 44, 48 48, 48 48 L36 48 L36 16 Z" fill="#f7fafc"/>
+                  <rect x="28" y="16" width="8" height="32" fill="#d69e2e"/>
+                </svg>
+                <span>64px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="128" height="128" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 16 C16 16, 22 20, 22 32 C22 44, 16 48, 16 48 L28 48 L28 16 Z" fill="#f7fafc"/>
+                  <path d="M48 16 C48 16, 42 20, 42 32 C42 44, 48 48, 48 48 L36 48 L36 16 Z" fill="#f7fafc"/>
+                  <rect x="28" y="16" width="8" height="32" fill="#d69e2e"/>
+                </svg>
+                <span>128px</span>
+              </div>
+            </div>
+            <div class="wordmark-row">
+              <div class="wordmark-combo">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 16 C16 16, 22 20, 22 32 C22 44, 16 48, 16 48 L28 48 L28 16 Z" fill="#f7fafc"/>
+                  <path d="M48 16 C48 16, 42 20, 42 32 C42 44, 48 48, 48 48 L36 48 L36 16 Z" fill="#f7fafc"/>
+                  <rect x="28" y="16" width="8" height="32" fill="#d69e2e"/>
+                </svg>
+                <span class="wordmark wordmark-lg">migrate<span class="accent">-</span>tool</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Concept 2: Dual Arrows -->
+    <section class="logo-section">
+      <h2>Concept 2: Dual Arrows</h2>
+      <p class="concept-desc">Up arrow and down arrow arranged to suggest bidirectional data flow with geometric precision. Clean, modern representation of database migrations.</p>
+
+      <div class="logo-card">
+        <div class="logo-variations">
+          <!-- Light Background -->
+          <div class="variation light-bg">
+            <span class="variation-label">Light Background</span>
+            <div class="logo-display">
+              <div class="logo-size">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <!-- Up Arrow -->
+                  <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+                  <!-- Down Arrow -->
+                  <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+                </svg>
+                <span>32px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+                  <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+                </svg>
+                <span>64px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="128" height="128" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+                  <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+                </svg>
+                <span>128px</span>
+              </div>
+            </div>
+            <div class="wordmark-row">
+              <div class="wordmark-combo">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+                  <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+                </svg>
+                <span class="wordmark wordmark-lg">migrate<span class="accent">-</span>tool</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dark Background -->
+          <div class="variation dark-bg">
+            <span class="variation-label">Dark Background</span>
+            <div class="logo-display">
+              <div class="logo-size">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+                  <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+                </svg>
+                <span>32px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+                  <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+                </svg>
+                <span>64px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="128" height="128" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+                  <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+                </svg>
+                <span>128px</span>
+              </div>
+            </div>
+            <div class="wordmark-row">
+              <div class="wordmark-combo">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+                  <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+                </svg>
+                <span class="wordmark wordmark-lg">migrate<span class="accent">-</span>tool</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Concept 3: Doorway with Light -->
+    <section class="logo-section">
+      <h2>Concept 3: Doorway with Light</h2>
+      <p class="concept-desc">Minimalist doorway or arch with geometric light rays emanating from both sides. Symbolizes the passage between database states and transformation.</p>
+
+      <div class="logo-card">
+        <div class="logo-variations">
+          <!-- Light Background -->
+          <div class="variation light-bg">
+            <span class="variation-label">Light Background</span>
+            <div class="logo-display">
+              <div class="logo-size">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <!-- Light rays left -->
+                  <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+                  <!-- Doorway arch -->
+                  <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+                  <!-- Light rays right -->
+                  <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+                </svg>
+                <span>32px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+                  <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+                  <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+                </svg>
+                <span>64px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="128" height="128" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+                  <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+                  <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+                </svg>
+                <span>128px</span>
+              </div>
+            </div>
+            <div class="wordmark-row">
+              <div class="wordmark-combo">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+                  <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+                  <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+                </svg>
+                <span class="wordmark wordmark-lg">migrate<span class="accent">-</span>tool</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dark Background -->
+          <div class="variation dark-bg">
+            <span class="variation-label">Dark Background</span>
+            <div class="logo-display">
+              <div class="logo-size">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+                  <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+                  <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+                </svg>
+                <span>32px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+                  <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+                  <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+                </svg>
+                <span>64px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="128" height="128" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+                  <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+                  <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+                </svg>
+                <span>128px</span>
+              </div>
+            </div>
+            <div class="wordmark-row">
+              <div class="wordmark-combo">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+                  <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+                  <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+                </svg>
+                <span class="wordmark wordmark-lg">migrate<span class="accent">-</span>tool</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Concept 4: Roman Pillar -->
+    <section class="logo-section">
+      <h2>Concept 4: Roman Pillar</h2>
+      <p class="concept-desc">Clean classical column that bifurcates into two peaks at the top. Represents stability, architecture, and the duality of up/down migrations.</p>
+
+      <div class="logo-card">
+        <div class="logo-variations">
+          <!-- Light Background -->
+          <div class="variation light-bg">
+            <span class="variation-label">Light Background</span>
+            <div class="logo-display">
+              <div class="logo-size">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <!-- Pillar base -->
+                  <rect x="20" y="48" width="24" height="4" rx="1" fill="#f7fafc"/>
+                  <!-- Pillar shaft -->
+                  <rect x="26" y="24" width="12" height="24" fill="#f7fafc"/>
+                  <!-- Bifurcated top - left peak -->
+                  <path d="M22 24 L26 24 L26 16 L22 12 L18 16 L18 24 Z" fill="#f7fafc"/>
+                  <!-- Bifurcated top - right peak -->
+                  <path d="M38 24 L42 24 L46 16 L42 12 L38 16 L38 24 Z" fill="#f7fafc"/>
+                  <!-- Gold accent bar -->
+                  <rect x="26" y="20" width="12" height="3" fill="#d69e2e"/>
+                  <!-- Connecting bar -->
+                  <rect x="18" y="24" width="28" height="3" fill="#f7fafc"/>
+                </svg>
+                <span>32px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <rect x="20" y="48" width="24" height="4" rx="1" fill="#f7fafc"/>
+                  <rect x="26" y="24" width="12" height="24" fill="#f7fafc"/>
+                  <path d="M22 24 L26 24 L26 16 L22 12 L18 16 L18 24 Z" fill="#f7fafc"/>
+                  <path d="M38 24 L42 24 L46 16 L42 12 L38 16 L38 24 Z" fill="#f7fafc"/>
+                  <rect x="26" y="20" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="18" y="24" width="28" height="3" fill="#f7fafc"/>
+                </svg>
+                <span>64px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="128" height="128" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <rect x="20" y="48" width="24" height="4" rx="1" fill="#f7fafc"/>
+                  <rect x="26" y="24" width="12" height="24" fill="#f7fafc"/>
+                  <path d="M22 24 L26 24 L26 16 L22 12 L18 16 L18 24 Z" fill="#f7fafc"/>
+                  <path d="M38 24 L42 24 L46 16 L42 12 L38 16 L38 24 Z" fill="#f7fafc"/>
+                  <rect x="26" y="20" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="18" y="24" width="28" height="3" fill="#f7fafc"/>
+                </svg>
+                <span>128px</span>
+              </div>
+            </div>
+            <div class="wordmark-row">
+              <div class="wordmark-combo">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#1a365d"/>
+                  <rect x="20" y="48" width="24" height="4" rx="1" fill="#f7fafc"/>
+                  <rect x="26" y="24" width="12" height="24" fill="#f7fafc"/>
+                  <path d="M22 24 L26 24 L26 16 L22 12 L18 16 L18 24 Z" fill="#f7fafc"/>
+                  <path d="M38 24 L42 24 L46 16 L42 12 L38 16 L38 24 Z" fill="#f7fafc"/>
+                  <rect x="26" y="20" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="18" y="24" width="28" height="3" fill="#f7fafc"/>
+                </svg>
+                <span class="wordmark wordmark-lg">migrate<span class="accent">-</span>tool</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dark Background -->
+          <div class="variation dark-bg">
+            <span class="variation-label">Dark Background</span>
+            <div class="logo-display">
+              <div class="logo-size">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="20" y="48" width="24" height="4" rx="1" fill="#f7fafc"/>
+                  <rect x="26" y="24" width="12" height="24" fill="#f7fafc"/>
+                  <path d="M22 24 L26 24 L26 16 L22 12 L18 16 L18 24 Z" fill="#f7fafc"/>
+                  <path d="M38 24 L42 24 L46 16 L42 12 L38 16 L38 24 Z" fill="#f7fafc"/>
+                  <rect x="26" y="20" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="18" y="24" width="28" height="3" fill="#f7fafc"/>
+                </svg>
+                <span>32px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="20" y="48" width="24" height="4" rx="1" fill="#f7fafc"/>
+                  <rect x="26" y="24" width="12" height="24" fill="#f7fafc"/>
+                  <path d="M22 24 L26 24 L26 16 L22 12 L18 16 L18 24 Z" fill="#f7fafc"/>
+                  <path d="M38 24 L42 24 L46 16 L42 12 L38 16 L38 24 Z" fill="#f7fafc"/>
+                  <rect x="26" y="20" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="18" y="24" width="28" height="3" fill="#f7fafc"/>
+                </svg>
+                <span>64px</span>
+              </div>
+              <div class="logo-size">
+                <svg width="128" height="128" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="20" y="48" width="24" height="4" rx="1" fill="#f7fafc"/>
+                  <rect x="26" y="24" width="12" height="24" fill="#f7fafc"/>
+                  <path d="M22 24 L26 24 L26 16 L22 12 L18 16 L18 24 Z" fill="#f7fafc"/>
+                  <path d="M38 24 L42 24 L46 16 L42 12 L38 16 L38 24 Z" fill="#f7fafc"/>
+                  <rect x="26" y="20" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="18" y="24" width="28" height="3" fill="#f7fafc"/>
+                </svg>
+                <span>128px</span>
+              </div>
+            </div>
+            <div class="wordmark-row">
+              <div class="wordmark-combo">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="20" y="48" width="24" height="4" rx="1" fill="#f7fafc"/>
+                  <rect x="26" y="24" width="12" height="24" fill="#f7fafc"/>
+                  <path d="M22 24 L26 24 L26 16 L22 12 L18 16 L18 24 Z" fill="#f7fafc"/>
+                  <path d="M38 24 L42 24 L46 16 L42 12 L38 16 L38 24 Z" fill="#f7fafc"/>
+                  <rect x="26" y="20" width="12" height="3" fill="#d69e2e"/>
+                  <rect x="18" y="24" width="28" height="3" fill="#f7fafc"/>
+                </svg>
+                <span class="wordmark wordmark-lg">migrate<span class="accent">-</span>tool</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Favicon Comparison -->
+    <section class="favicon-grid">
+      <h2>Favicon Comparison (All Concepts at 16px)</h2>
+      <div class="favicon-row">
+        <div class="favicon-item">
+          <div class="favicon-box">
+            <svg width="16" height="16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="64" height="64" rx="8" fill="#1a365d"/>
+              <path d="M16 16 C16 16, 22 20, 22 32 C22 44, 16 48, 16 48 L28 48 L28 16 Z" fill="#f7fafc"/>
+              <path d="M48 16 C48 16, 42 20, 42 32 C42 44, 48 48, 48 48 L36 48 L36 16 Z" fill="#f7fafc"/>
+              <rect x="28" y="16" width="8" height="32" fill="#d69e2e"/>
+            </svg>
+          </div>
+          <span>Janus</span>
+        </div>
+        <div class="favicon-item">
+          <div class="favicon-box">
+            <svg width="16" height="16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="64" height="64" rx="8" fill="#1a365d"/>
+              <path d="M22 36 L22 48 L30 48 L30 36 L36 36 L26 20 L16 36 Z" fill="#f7fafc"/>
+              <path d="M42 28 L42 16 L34 16 L34 28 L28 28 L38 44 L48 28 Z" fill="#d69e2e"/>
+            </svg>
+          </div>
+          <span>Dual Arrows</span>
+        </div>
+        <div class="favicon-item">
+          <div class="favicon-box">
+            <svg width="16" height="16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="64" height="64" rx="8" fill="#1a365d"/>
+              <rect x="10" y="24" width="12" height="3" fill="#d69e2e"/>
+              <rect x="10" y="32" width="12" height="3" fill="#d69e2e"/>
+              <rect x="10" y="40" width="12" height="3" fill="#d69e2e"/>
+              <path d="M24 52 L24 24 C24 16, 40 16, 40 24 L40 52 L36 52 L36 26 C36 22, 28 22, 28 26 L28 52 Z" fill="#f7fafc"/>
+              <rect x="42" y="24" width="12" height="3" fill="#d69e2e"/>
+              <rect x="42" y="32" width="12" height="3" fill="#d69e2e"/>
+              <rect x="42" y="40" width="12" height="3" fill="#d69e2e"/>
+            </svg>
+          </div>
+          <span>Doorway</span>
+        </div>
+        <div class="favicon-item">
+          <div class="favicon-box">
+            <svg width="16" height="16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="64" height="64" rx="8" fill="#1a365d"/>
+              <rect x="20" y="48" width="24" height="4" rx="1" fill="#f7fafc"/>
+              <rect x="26" y="24" width="12" height="24" fill="#f7fafc"/>
+              <path d="M22 24 L26 24 L26 16 L22 12 L18 16 L18 24 Z" fill="#f7fafc"/>
+              <path d="M38 24 L42 24 L46 16 L42 12 L38 16 L38 24 Z" fill="#f7fafc"/>
+              <rect x="26" y="20" width="12" height="3" fill="#d69e2e"/>
+              <rect x="18" y="24" width="28" height="3" fill="#f7fafc"/>
+            </svg>
+          </div>
+          <span>Pillar</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section class="palette-section">
+      <h2>Typography</h2>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <span class="wordmark wordmark-lg" style="color: var(--primary-deep-blue);">migrate<span class="accent">-</span>tool</span>
+          <p style="font-size: 0.75rem; color: var(--gray-800); margin-top: 8px;">Poppins SemiBold 600, -0.02em letter-spacing</p>
+        </div>
+        <div>
+          <span style="font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 300; color: var(--primary-deep-blue);">Database Migration CLI</span>
+          <p style="font-size: 0.75rem; color: var(--gray-800); margin-top: 8px;">Poppins Light 300 - Tagline</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 40px 0; color: var(--gray-800);">
+      <p style="font-size: 0.875rem; font-weight: 300;">migrate-tool Logo Concepts | Design System 2025</p>
+    </footer>
+  </div>
+</body>
+</html>
