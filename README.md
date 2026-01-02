@@ -12,20 +12,42 @@ Cross-platform database migration CLI tool with single-file up/down support.
 
 ## Installation
 
-### Automated Installation (Recommended)
+### Quick Install (Recommended)
 
+**Linux/macOS:**
 ```bash
-./scripts/install.sh
+curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh
 ```
 
-For detailed options and troubleshooting, see [Deployment Guide](./docs/deployment-guide.md).
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.ps1 | iex
+```
 
-### Download Binary
+### Install Specific Version
 
-Download the appropriate binary for your platform from [Releases](https://github.com/cesc1802/migration-tool/releases).
-
-**Verify checksum:**
 ```bash
+# Linux/macOS
+curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh -s -- --version v1.0.0
+
+# Windows PowerShell
+irm https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.ps1 -OutFile install.ps1; .\install.ps1 -Version v1.0.0
+```
+
+### Platform Support
+
+| OS | Architecture | Status |
+|----|--------------|--------|
+| Linux | amd64, arm64 | ✅ |
+| macOS | amd64, arm64 | ✅ |
+| Windows | amd64, arm64 | ✅ |
+
+### Manual Download
+
+Download binaries from [Releases](https://github.com/cesc1802/migration-tool/releases).
+
+```bash
+# Verify checksum
 sha256sum -c checksums.txt --ignore-missing
 ```
 
@@ -34,6 +56,8 @@ sha256sum -c checksums.txt --ignore-missing
 ```bash
 go install github.com/cesc1802/migrate-tool/cmd/migrate-tool@latest
 ```
+
+For detailed options and troubleshooting, see [Deployment Guide](./docs/deployment-guide.md).
 
 ## Quick Start
 
