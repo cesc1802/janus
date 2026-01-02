@@ -97,7 +97,7 @@ janus force -1 --env=dev
 ### Config File Not Found
 
 ```
-Error: config file not found: migrate-tool.yaml
+Error: config file not found: janus.yaml
 ```
 
 **Solutions:**

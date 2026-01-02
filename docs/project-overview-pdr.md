@@ -38,11 +38,11 @@ A robust, cross-platform database migration CLI tool that provides single-file u
 - [x] Install script handles missing dependencies gracefully
 
 ### Deliverables
-- cmd/migrate-tool/main.go - Entry point with version injection
+- cmd/janus/main.go - Entry point with version injection
 - internal/cmd/root.go - Root command & config initialization
 - internal/cmd/root_test.go - Core unit tests
 - Makefile - Build automation
-- migrate-tool.example.yaml - Configuration template
+- janus.example.yaml - Configuration template
 - .gitignore - Properly configured for Go project
 - scripts/install.sh - Automated Unix installation script (279 lines)
 - docs/deployment-guide.md - Installation and distribution documentation
@@ -76,7 +76,7 @@ A robust, cross-platform database migration CLI tool that provides single-file u
 ## Architecture Overview
 
 ### Layer 1: Entry Point
-- `cmd/migrate-tool/main.go` - Bootstrap application
+- `cmd/janus/main.go` - Bootstrap application
 - Injects version information (version, commit, date)
 - Delegates to internal command handler
 
@@ -101,7 +101,7 @@ A robust, cross-platform database migration CLI tool that provides single-file u
 ## Configuration Structure
 
 ### Default Location
-- `./migrate-tool.yaml` in current working directory
+- `./janus.yaml` in current working directory
 - Override with `--config <path>`
 
 ### Environment Selection

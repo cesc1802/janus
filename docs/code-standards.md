@@ -830,7 +830,7 @@ go list -json -m all | nancy sleuth  # Requires nancy tool
 ## Security Best Practices
 
 ### Configuration Secrets
-- Never commit `migrate-tool.yaml` with real credentials
+- Never commit `janus.yaml` with real credentials
 - Use environment variable substitution for secrets
 - Document required env vars in `.example` files
 

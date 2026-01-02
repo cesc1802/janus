@@ -1,11 +1,11 @@
-# CLI Reference - migrate-tool
+# CLI Reference - Janus
 
 ## Overview
 
-migrate-tool is a cross-platform database migration CLI with support for PostgreSQL, MySQL, and SQLite3. All commands support multi-environment configuration and require a `migrate-tool.yaml` config file.
+Janus is a cross-platform database migration CLI with support for PostgreSQL, MySQL, and SQLite3. All commands support multi-environment configuration and require a `janus.yaml` config file.
 
 **Global Flags:**
-- `--config` - Path to config file (default: ./migrate-tool.yaml)
+- `--config` - Path to config file (default: ./janus.yaml)
 - `--env` - Environment name (default: dev)
 
 ---
@@ -23,7 +23,7 @@ janus config show [--config=PATH]
 
 **Output:**
 ```
-Config file: migrate-tool.yaml
+Config file: janus.yaml
 
 Environments:
   dev:
@@ -367,7 +367,7 @@ Error: cannot migrate: database in dirty state at version 5
 
 ## Environment Configuration
 
-### Configuration File (migrate-tool.yaml)
+### Configuration File (janus.yaml)
 
 ```yaml
 environments:
@@ -476,14 +476,14 @@ done
 - This marks database as clean without rerunning migration
 
 ### Config file not found
-- Ensure `migrate-tool.yaml` exists in current directory
-- Or specify path: `migrate-tool --config=/path/to/config.yaml status`
+- Ensure `janus.yaml` exists in current directory
+- Or specify path: `janus --config=/path/to/config.yaml status`
 - Use `config show` to verify configuration is loaded
 
 ### Environment not found
-- Run: `migrate-tool config show` to list available environments
+- Run: `janus config show` to list available environments
 - Check environment name spelling
-- Verify `migrate-tool.yaml` has `environments:` section
+- Verify `janus.yaml` has `environments:` section
 
 ### Database connection error
 - Verify `database_url` in config is correct

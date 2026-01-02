@@ -1,10 +1,10 @@
 # Configuration
 
-This guide covers all configuration options for migrate-tool.
+This guide covers all configuration options for Janus.
 
 ## Config File
 
-migrate-tool uses a YAML configuration file. Default location: `./migrate-tool.yaml`
+Janus uses a YAML configuration file. Default location: `./janus.yaml`
 
 ### Basic Structure
 
@@ -62,13 +62,13 @@ janus up --env=prod
 **Windows (PowerShell):**
 ```powershell
 $env:DATABASE_URL = "postgres://user:pass@prod-host:5432/myapp"
-migrate-tool up --env=prod
+janus up --env=prod
 ```
 
 **Windows (CMD):**
 ```cmd
 set DATABASE_URL=postgres://user:pass@prod-host:5432/myapp
-migrate-tool up --env=prod
+janus up --env=prod
 ```
 
 ## Database URLs
@@ -151,7 +151,7 @@ janus config show
 
 Output:
 ```
-Config file: migrate-tool.yaml
+Config file: janus.yaml
 
 Environments:
   dev:

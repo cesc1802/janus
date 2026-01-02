@@ -1,6 +1,8 @@
-# migrate-tool
-
-Cross-platform database migration CLI tool with single-file up/down support.
+<div align="center">
+  <img src="assets/logo/janus-roman-pillar.svg" alt="Janus Logo" width="128" height="128">
+  <h1>Janus</h1>
+  <p>Cross-platform database migration CLI with single-file up/down support</p>
+</div>
 
 ## Features
 
@@ -66,7 +68,7 @@ For detailed options and troubleshooting, see [Deployment Guide](./docs/deployme
 cp janus.example.yaml janus.yaml
 ```
 
-2. Configure your database connection in `migrate-tool.yaml`
+2. Configure your database connection in `janus.yaml`
 
 3. Run migrations:
 ```bash
@@ -93,13 +95,13 @@ janus version
 
 | Flag | Description |
 |------|-------------|
-| `--config` | Config file path (default: ./migrate-tool.yaml) |
+| `--config` | Config file path (default: ./janus.yaml) |
 | `--env` | Environment name (default: dev) |
 | `--auto-approve` | Skip confirmation prompts (for CI/CD) |
 
 ## Configuration
 
-Create a `migrate-tool.yaml` file:
+Create a `janus.yaml` file:
 
 ```yaml
 environments:

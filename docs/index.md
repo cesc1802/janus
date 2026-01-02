@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 
-# migrate-tool Documentation
+# Janus Documentation
 
 Cross-platform database migration CLI with single-file up/down support.
 

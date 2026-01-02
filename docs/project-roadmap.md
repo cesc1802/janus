@@ -1,11 +1,11 @@
-# Project Roadmap - migrate-tool
+# Project Roadmap - Janus
 
 **Last Updated:** 2026-01-02
 **Project Status:** Active Development
 
 ## Executive Summary
 
-migrate-tool is a cross-platform CLI tool for managing database migrations with support for BYOK (Bring Your Own Key), SSH/PTY connections, and WebSocket communication. This roadmap tracks development progress across backend implementation, mobile integration, and comprehensive documentation.
+Janus is a cross-platform CLI tool for managing database migrations with support for BYOK (Bring Your Own Key), SSH/PTY connections, and WebSocket communication. This roadmap tracks development progress across backend implementation, mobile integration, and comprehensive documentation.
 
 ---
 
@@ -123,6 +123,18 @@ migrate-tool is a cross-platform CLI tool for managing database migrations with 
 ## Recent Changes (Changelog)
 
 ### Version: 0.9.0 (In Development)
+
+#### 2026-01-02 - Janus Branding Phase 01 Complete
+**Type:** Branding Update
+**Impact:** Repository Branding - Janus Logo Integration
+
+- Added Janus logo hero section to README.md
+- Updated title from "migrate-tool" to "Janus"
+- Fixed 3 config file references: migrate-tool.yaml → janus.yaml
+- Consistent branding in core documentation
+
+**Files Modified:**
+- `/README.md` - Hero section with Janus logo, title update, config refs
 
 #### 2026-01-02 - Documentation Completion
 **Type:** Feature Complete

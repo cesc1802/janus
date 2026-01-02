@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide walks you through installing migrate-tool and running your first migration.
+This guide walks you through installing Janus and running your first migration.
 
 ## Installation
 
@@ -48,7 +48,7 @@ janus version
 
 Expected output:
 ```
-migrate-tool 1.0.0
+Janus 1.0.0
   commit: a1b2c3d
   built:  2026-01-01T10:30:00Z
   go:     go1.25.1
@@ -59,7 +59,7 @@ migrate-tool 1.0.0
 
 ### 1. Create Config File
 
-Create `migrate-tool.yaml` in your project root:
+Create `janus.yaml` in your project root:
 
 ```yaml
 environments:
@@ -161,7 +161,7 @@ After setup, your project should look like:
 
 ```
 my-project/
-├── migrate-tool.yaml
+├── janus.yaml
 └── migrations/
     └── 000001_create_users.sql
 ```

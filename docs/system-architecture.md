@@ -70,7 +70,7 @@
 ## Layered Architecture
 
 ### Layer 1: Presentation (CLI)
-**Files:** `cmd/migrate-tool/main.go`
+**Files:** `cmd/janus/main.go`
 
 **Responsibilities:**
 - Application bootstrap
@@ -135,10 +135,10 @@ Viper loads config & env vars
 1. Viper loads YAML + env vars (in initConfig)
    ├── Check --config flag
    ├── If set: viper.SetConfigFile(cfgFile)
-   └── If not: Search for migrate-tool.yaml
+   └── If not: Search for janus.yaml
 
 2. Viper sets config parameters
-   ├── ConfigName: "migrate-tool"
+   ├── ConfigName: "janus"
    ├── ConfigType: "yaml"
    ├── ConfigPath: "." (current directory)
    └── AutomaticEnv() for env var overrides
@@ -155,7 +155,7 @@ Viper loads config & env vars
        dbURL := env.DatabaseURL
 ```
 
-**Configuration Schema (migrate-tool.yaml):**
+**Configuration Schema (janus.yaml):**
 ```yaml
 environments:
   <env-name>:
@@ -216,7 +216,7 @@ defaults:
          │     ├─ Check --config flag
          │     ├─ Set Viper config name/type/path
          │     ├─ Enable auto env vars
-         │     └─ Load migrate-tool.yaml
+         │     └─ Load janus.yaml
          │
          └─ Execute root command or route to subcommand
             └─ Subcommand accesses config via viper.Get*()
@@ -449,12 +449,12 @@ internal/cmd/root_test.go
 ```
 Build Stage:
 ├─ make build (builds with version info)
-└─ Output: bin/migrate-tool-<os>-<arch>
+└─ Output: bin/janus-<os>-<arch>
 
 Deploy Stage:
 ├─ Copy binary to server
-├─ Copy migrate-tool.yaml to server
-└─ Run: ./migrate-tool migrate up --env prod
+├─ Copy janus.yaml to server
+└─ Run: ./janus up --env prod
 ```
 
 ---

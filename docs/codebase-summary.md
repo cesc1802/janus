@@ -1,4 +1,4 @@
-# Codebase Summary - migrate-tool
+# Codebase Summary - Janus
 
 ## Project Overview
 
@@ -15,7 +15,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
 ```
 .
 ├── cmd/
-│   └── migrate-tool/
+│   └── janus/
 │       └── main.go              # CLI entry point
 ├── internal/
 │   ├── cmd/
@@ -55,7 +55,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
 ├── .goreleaser.yaml             # GoReleaser config (multi-platform builds)
 ├── .golangci.yaml               # Linter config (enabled linters, settings)
 ├── go.mod                        # Module dependencies
-├── migrate-tool.example.yaml     # Configuration template
+├── janus.example.yaml            # Configuration template
 ├── LICENSE                       # MIT license
 ├── .gitignore                    # Git ignore rules
 └── .repomixignore               # Repomix ignore rules
@@ -65,7 +65,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
 
 ## Core Components
 
-### 1. CLI Entry Point (cmd/migrate-tool/main.go)
+### 1. CLI Entry Point (cmd/janus/main.go)
 - **Purpose:** Application bootstrap and command execution
 - **Key Features:**
   - Version information injection (version, commit, date)
@@ -145,7 +145,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
 
 **Files (Phase 4, Phase 7 confirmations added):**
 - **up.go:**
-  - Command: `migrate-tool up [--steps=N] --env=ENV [--auto-approve]`
+  - Command: `janus up [--steps=N] --env=ENV [--auto-approve]`
   - Flag: `--steps` (default: 0 = apply all)
   - Phase 7: Confirmation flow
     - Shows pending count and target before prompting
@@ -155,7 +155,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
   - Behavior: Gets status, asks for confirmation, applies N/all pending migrations, shows result
 
 - **down.go:**
-  - Command: `migrate-tool down [--steps=N] --env=ENV [--auto-approve]`
+  - Command: `janus down [--steps=N] --env=ENV [--auto-approve]`
   - Flag: `--steps` (default: 1 = rollback 1 for safety)
   - Phase 7: Confirmation flow
     - Shows current version and rollback count before prompting
@@ -165,19 +165,19 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
   - Behavior: Gets status, asks for confirmation, rolls back N migrations, shows result
 
 - **status.go:**
-  - Command: `migrate-tool status --env=ENV`
+  - Command: `janus status --env=ENV`
   - Output: Current version, dirty state, applied/total, pending count
   - Warnings: Shows dirty state help text if DB in dirty state
 
 - **history.go:**
-  - Command: `migrate-tool history [--limit=N] --env=ENV`
+  - Command: `janus history [--limit=N] --env=ENV`
   - Flag: `--limit` (default: 10)
   - Output: List of migrations with [x] for applied, [ ] for pending
   - Pagination: Shows "... and N more" if exceeds limit
 
 **Files (Phase 6 - Advanced Migration Control, Phase 7 confirmations added):**
 - **force.go:**
-  - Command: `migrate-tool force <version> --env=ENV [--auto-approve]`
+  - Command: `janus force <version> --env=ENV [--auto-approve]`
   - Argument: version (integer, can be 0 or -1)
   - Phase 7: Confirmation via `ui.ConfirmDangerous()` with current/new version details
   - Behavior: Force set migration version without running migrations
@@ -187,7 +187,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
   - Examples: reset to initial state (0), clear version (-1)
 
 - **goto.go:**
-  - Command: `migrate-tool goto <version> --env=ENV [--auto-approve]`
+  - Command: `janus goto <version> --env=ENV [--auto-approve]`
   - Argument: target version (integer)
   - Phase 7: Confirmation via `ui.ConfirmDangerous()` with direction/step count
   - Behavior: Migrate up or down to reach specified version
@@ -256,7 +256,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
 
 **Files:**
 - **create.go:**
-  - Command: `migrate-tool create <name> [--seq]`
+  - Command: `janus create <name> [--seq]`
   - Name sanitization via regex: replaces spaces/special chars with underscores, converts to lowercase
   - Version generation: sequential (000001, 000002, etc.) or timestamp-based (unix timestamp)
   - Template generation: includes migration name, creation timestamp, UP/DOWN markers, TODO comments
@@ -266,7 +266,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
   - Helper functions: `sanitizeName()`, `getNextSequentialVersion()`, `migrationTemplate()`
 
 - **validate.go:**
-  - Command: `migrate-tool validate [--env=ENV]`
+  - Command: `janus validate [--env=ENV]`
   - Config validation: loads config, checks syntax and structure
   - Multi-environment validation: validates all envs or specific env via --env flag
   - Migration inspection: scans files, counts total/migrations, detects duplicates
@@ -275,7 +275,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
   - Error handling: returns exit code 1 on errors, 0 on success
 
 - **version.go:**
-  - Command: `migrate-tool version`
+  - Command: `janus version`
   - Version display: shows compiled version, defaults to "dev" if unset
   - Commit hash: displays short git commit, defaults to "unknown"
   - Build date: shows UTC timestamp, defaults to "unknown"
@@ -320,7 +320,7 @@ Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migrat
 
 ## Configuration
 
-### File: migrate-tool.example.yaml
+### File: janus.example.yaml
 Multi-environment configuration with database URLs and migration paths.
 
 ```yaml
@@ -339,7 +339,7 @@ environments:
 ```
 
 **Config Loading:**
-- Default: `./migrate-tool.yaml` in current directory
+- Default: `./janus.yaml` in current directory
 - Override: `--config <path>` flag
 - Environment selection: `--env <name>` (default: dev)
 - Automatic env var substitution via Viper
@@ -377,7 +377,7 @@ make tag                # Create git version tag (interactive)
 ## Development Patterns
 
 ### Command Structure
-- Single root command: `migrate-tool`
+- Single root command: `janus`
 - Persistent flags shared across subcommands
 - Viper handles config file + env var merging
 - Config initialized before command execution
@@ -593,8 +593,8 @@ make tag                # Create git version tag (interactive)
 
 ### Release Automation (.goreleaser.yaml)
 - **Build Configuration:**
-  - Project: migrate-tool
-  - Main package: ./cmd/migrate-tool
+  - Project: janus
+  - Main package: ./cmd/janus
   - CGO disabled for cross-platform compatibility
   - Multi-platform targets: Linux/Darwin/Windows, amd64/arm64
   - Version info injected: version, commit hash, UTC date
@@ -602,8 +602,8 @@ make tag                # Create git version tag (interactive)
 
 - **Release Artifacts:**
   - Archives: tar.gz for Linux/Darwin, .zip for Windows
-  - Naming template: `migrate-tool_{version}_{os}_{arch}`
-  - Included files: README.md, LICENSE, migrate-tool.example.yaml
+  - Naming template: `janus_{version}_{os}_{arch}`
+  - Included files: README.md, LICENSE, janus.example.yaml
   - SHA256 checksums file
 
 - **Changelog & Release Notes:**
