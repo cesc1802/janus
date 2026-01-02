@@ -83,6 +83,11 @@ release:
     ```bash
     curl -fsSL https://github.com/cesc1802/migration-tool/releases/download/v{{ .Version }}/install.sh | sh
     ```
+    
+    **Windows (PowerShell):**
+    ```powershell
+    irm https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.ps1 | iex
+    ```
 
     ### Manual Installation
 
