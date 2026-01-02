@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/cesc1802/migrate-tool/internal/config"
+	"github.com/cesc1802/janus/internal/config"
 )
 
 func TestUpCmd_Registered(t *testing.T) {

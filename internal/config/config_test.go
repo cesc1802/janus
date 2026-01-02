@@ -15,7 +15,7 @@ func setupTestConfig(t *testing.T, content string) func() {
 	ResetForTesting()
 
 	tmpDir := t.TempDir()
-	configPath := filepath.Join(tmpDir, "migrate-tool.yaml")
+	configPath := filepath.Join(tmpDir, "janus.yaml")
 	if err := os.WriteFile(configPath, []byte(content), 0644); err != nil {
 		t.Fatalf("failed to write test config: %v", err)
 	}

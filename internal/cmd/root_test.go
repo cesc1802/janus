@@ -30,7 +30,7 @@ func TestRootCmdExists(t *testing.T) {
 	if rootCmd == nil {
 		t.Error("rootCmd is nil")
 	}
-	if rootCmd.Use != "migrate-tool" {
-		t.Errorf("expected Use 'migrate-tool', got '%s'", rootCmd.Use)
+	if rootCmd.Use != "janus" {
+		t.Errorf("expected Use 'janus', got '%s'", rootCmd.Use)
 	}
 }

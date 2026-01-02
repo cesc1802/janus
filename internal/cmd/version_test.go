@@ -29,7 +29,7 @@ func TestRunVersion(t *testing.T) {
 	output := buf.String()
 
 	// Verify output contains expected info
-	if !strings.Contains(output, "migrate-tool 1.0.0") {
+	if !strings.Contains(output, "janus 1.0.0") {
 		t.Errorf("output should contain version: %s", output)
 	}
 	if !strings.Contains(output, "commit: abc123") {
@@ -67,7 +67,7 @@ func TestRunVersion_DevDefaults(t *testing.T) {
 	output := buf.String()
 
 	// Verify default values are used
-	if !strings.Contains(output, "migrate-tool dev") {
+	if !strings.Contains(output, "janus dev") {
 		t.Errorf("output should show 'dev' for empty version: %s", output)
 	}
 	if !strings.Contains(output, "commit: unknown") {
