@@ -24,7 +24,7 @@ Pending: 2
 
 WARNING: Database is in dirty state.
 This usually means a migration failed mid-execution.
-Fix with: migrate-tool force 5 --env=dev
+Fix with: janus force 5 --env=dev
 ```
 
 ### Fixing Dirty State

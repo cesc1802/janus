@@ -1,6 +1,6 @@
 # CI/CD Integration
 
-This guide covers integrating migrate-tool into automated deployment pipelines.
+This guide covers integrating Janus into automated deployment pipelines.
 
 ## GitHub Actions
 
@@ -30,7 +30,7 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          migrate-tool up --env=prod --auto-approve
+          janus up --env=prod --auto-approve
 ```
 
 ### With Validation
@@ -54,19 +54,19 @@ jobs:
 
       - name: Validate migrations
         run: |
-          migrate-tool validate --env=prod
+          janus validate --env=prod
 
       - name: Check status
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          migrate-tool status --env=prod
+          janus status --env=prod
 
       - name: Run migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          migrate-tool up --env=prod --auto-approve
+          janus up --env=prod --auto-approve
 ```
 
 ### PR Validation Only
@@ -94,7 +94,7 @@ jobs:
 
       - name: Validate migrations
         run: |
-          migrate-tool validate
+          janus validate
 ```
 
 ### Staged Deployment
@@ -123,7 +123,7 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
         run: |
-          migrate-tool up --env=staging --auto-approve
+          janus up --env=staging --auto-approve
 
   production:
     needs: staging
@@ -140,7 +140,7 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
         run: |
-          migrate-tool up --env=prod --auto-approve
+          janus up --env=prod --auto-approve
 ```
 
 ## GitLab CI
@@ -315,7 +315,7 @@ GitHub:
 
 - name: Install janus
   run: |
-    if ! command -v migrate-tool &> /dev/null; then
+    if ! command -v janus &> /dev/null; then
       curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh -s -- --version v1.0.0
     fi
 ```

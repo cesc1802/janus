@@ -142,7 +142,7 @@ done
 ```powershell
 foreach ($env in @("dev", "staging", "prod")) {
     Write-Host "=== $env ==="
-    migrate-tool status --env=$env
+    janus status --env=$env
     Write-Host ""
 }
 ```

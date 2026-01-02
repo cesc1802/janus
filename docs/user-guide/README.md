@@ -1,6 +1,10 @@
-# migrate-tool User Guide
+<div align="center">
+  <img src="../../assets/logo/janus-roman-pillar.svg" alt="Janus Logo" width="80" height="80">
+</div>
 
-Welcome to the migrate-tool user guide. This tutorial-style documentation covers everything from installation to CI/CD integration.
+# Janus User Guide
+
+Welcome to the Janus user guide. This tutorial-style documentation covers everything from installation to CI/CD integration.
 
 ## Prerequisites
 
@@ -40,4 +44,4 @@ CREATE TABLE users (
 
 ## Next Steps
 
-Start with [Getting Started](./01-getting-started.md) to install migrate-tool and run your first migration.
+Start with [Getting Started](./01-getting-started.md) to install Janus and run your first migration.
