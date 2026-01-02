@@ -72,10 +72,19 @@ release:
   draft: true
   prerelease: auto
   name_template: "v{{ .Version }}"
+  extra_files:
+    - glob: scripts/install.sh
   header: |
     ## Migration Tool {{ .Version }}
 
-    ### Installation
+    ### Quick Install
+
+    **Linux/macOS:**
+    ```bash
+    curl -fsSL https://github.com/cesc1802/migration-tool/releases/download/v{{ .Version }}/install.sh | sh
+    ```
+
+    ### Manual Installation
 
     Download the appropriate binary for your platform below.
 
