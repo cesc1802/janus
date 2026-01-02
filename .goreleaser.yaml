@@ -68,7 +68,7 @@ changelog:
 release:
   github:
     owner: cesc1802
-    name: migrate-tool
+    name: migration-tool
   draft: true
   prerelease: auto
   name_template: "v{{ .Version }}"
@@ -85,7 +85,7 @@ release:
     ```
   footer: |
     ---
-    Full Changelog: https://github.com/cesc1802/migrate-tool/compare/{{ .PreviousTag }}...{{ .Tag }}
+    Full Changelog: https://github.com/cesc1802/migration-tool/compare/{{ .PreviousTag }}...{{ .Tag }}
 
 announce:
   skip: true
