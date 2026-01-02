@@ -1,4 +1,4 @@
-title: migrate-tool
+title: janus
 description: Cross-platform database migration CLI documentation
 baseurl: /migration-tool
 remote_theme: pages-themes/minimal@v0.2.0

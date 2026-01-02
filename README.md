@@ -54,7 +54,7 @@ sha256sum -c checksums.txt --ignore-missing
 ### Build from Source
 
 ```bash
-go install github.com/cesc1802/migrate-tool/cmd/migrate-tool@latest
+go install github.com/cesc1802/janus/cmd/janus@latest
 ```
 
 For detailed options and troubleshooting, see [Deployment Guide](./docs/deployment-guide.md).
@@ -63,30 +63,30 @@ For detailed options and troubleshooting, see [Deployment Guide](./docs/deployme
 
 1. Copy the example config:
 ```bash
-cp migrate-tool.example.yaml migrate-tool.yaml
+cp janus.example.yaml janus.yaml
 ```
 
 2. Configure your database connection in `migrate-tool.yaml`
 
 3. Run migrations:
 ```bash
-migrate-tool up --env dev
+janus up --env dev
 ```
 
 ## Usage
 
 ```bash
 # Show help
-migrate-tool --help
+janus --help
 
 # Run migrations
-migrate-tool up --env <environment>
+janus up --env <environment>
 
 # Rollback migrations
-migrate-tool down --env <environment>
+janus down --env <environment>
 
 # Show version
-migrate-tool version
+janus version
 ```
 
 ### Flags
