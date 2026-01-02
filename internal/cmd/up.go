@@ -6,8 +6,8 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/spf13/cobra"
 
-	"github.com/cesc1802/migrate-tool/internal/migrator"
-	"github.com/cesc1802/migrate-tool/internal/ui"
+	"github.com/cesc1802/janus/internal/migrator"
+	"github.com/cesc1802/janus/internal/ui"
 )
 
 var upSteps int

@@ -17,7 +17,7 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "migrate-tool",
+	Use:   "janus",
 	Short: "Database migration CLI tool",
 	Long:  `Cross-platform database migration tool with single-file up/down support.`,
 }
@@ -39,7 +39,7 @@ func GetEnvName() string {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default: ./migrate-tool.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default: ./janus.yaml)")
 	rootCmd.PersistentFlags().StringVar(&envName, "env", "dev", "environment name")
 	rootCmd.PersistentFlags().BoolVar(&autoApprove, "auto-approve", false, "skip confirmation prompts (for CI/CD)")
 }
@@ -53,7 +53,7 @@ func initConfig() {
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	} else {
-		viper.SetConfigName("migrate-tool")
+		viper.SetConfigName("janus")
 		viper.SetConfigType("yaml")
 		viper.AddConfigPath(".")
 	}

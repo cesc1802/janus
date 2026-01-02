@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/cesc1802/migrate-tool/internal/migrator"
+	"github.com/cesc1802/janus/internal/migrator"
 )
 
 var statusCmd = &cobra.Command{
@@ -44,7 +44,7 @@ func runStatus(cmd *cobra.Command, args []string) error {
 	if status.Dirty {
 		fmt.Println("\nWARNING: Database is in dirty state.")
 		fmt.Println("This usually means a migration failed mid-execution.")
-		fmt.Printf("Fix with: migrate-tool force %d --env=%s\n", status.Version, envName)
+		fmt.Printf("Fix with: janus force %d --env=%s\n", status.Version, envName)
 	}
 
 	return nil

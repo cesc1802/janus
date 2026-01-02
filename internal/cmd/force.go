@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/cesc1802/migrate-tool/internal/migrator"
-	"github.com/cesc1802/migrate-tool/internal/ui"
+	"github.com/cesc1802/janus/internal/migrator"
+	"github.com/cesc1802/janus/internal/ui"
 )
 
 var forceCmd = &cobra.Command{
@@ -19,9 +19,9 @@ USE WITH CAUTION: This is intended for recovering from dirty state
 after a failed migration. It does NOT run any migration code.
 
 Examples:
-  migrate-tool force 5 --env=dev     # Set version to 5
-  migrate-tool force 0 --env=dev     # Reset to initial state
-  migrate-tool force -1 --env=dev    # Clear version (NilVersion)`,
+  janus force 5 --env=dev     # Set version to 5
+  janus force 0 --env=dev     # Reset to initial state
+  janus force -1 --env=dev    # Clear version (NilVersion)`,
 	Args: cobra.ExactArgs(1),
 	RunE: runForce,
 }

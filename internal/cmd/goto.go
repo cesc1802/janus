@@ -8,8 +8,8 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/spf13/cobra"
 
-	"github.com/cesc1802/migrate-tool/internal/migrator"
-	"github.com/cesc1802/migrate-tool/internal/ui"
+	"github.com/cesc1802/janus/internal/migrator"
+	"github.com/cesc1802/janus/internal/ui"
 )
 
 var gotoCmd = &cobra.Command{
@@ -21,8 +21,8 @@ If target version > current: applies UP migrations
 If target version < current: applies DOWN migrations
 
 Examples:
-  migrate-tool goto 10 --env=dev    # Migrate to version 10
-  migrate-tool goto 0 --env=dev     # Rollback all migrations`,
+  janus goto 10 --env=dev    # Migrate to version 10
+  janus goto 0 --env=dev     # Rollback all migrations`,
 	Args: cobra.ExactArgs(1),
 	RunE: runGoto,
 }
@@ -52,7 +52,7 @@ func runGoto(cmd *cobra.Command, args []string) error {
 	// Check dirty state - cannot migrate if database is dirty
 	if status.Dirty {
 		ui.Warning("Database is in dirty state.")
-		fmt.Println("Use 'migrate-tool force <version>' to fix the dirty state first.")
+		fmt.Println("Use 'janus force <version>' to fix the dirty state first.")
 		return fmt.Errorf("cannot migrate: database in dirty state at version %d", status.Version)
 	}
 

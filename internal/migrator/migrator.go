@@ -6,8 +6,8 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/source"
 
-	"github.com/cesc1802/migrate-tool/internal/config"
-	"github.com/cesc1802/migrate-tool/internal/source/singlefile"
+	"github.com/cesc1802/janus/internal/config"
+	"github.com/cesc1802/janus/internal/source/singlefile"
 
 	// Database drivers
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"

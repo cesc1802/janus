@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/cesc1802/migrate-tool/internal/migrator"
+	"github.com/cesc1802/janus/internal/migrator"
 )
 
 var historyLimit int

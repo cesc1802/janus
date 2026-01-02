@@ -19,8 +19,8 @@ var createCmd = &cobra.Command{
 	Long: `Create a new migration file with up/down template.
 
 Examples:
-  migrate-tool create create_users_table
-  migrate-tool create add_email_to_users`,
+  janus create create_users_table
+  janus create add_email_to_users`,
 	Args: cobra.ExactArgs(1),
 	RunE: runCreate,
 }

@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/cesc1802/migrate-tool/internal/config"
+	"github.com/cesc1802/janus/internal/config"
 )
 
 var configCmd = &cobra.Command{
@@ -20,7 +20,7 @@ var configShowCmd = &cobra.Command{
 	Long:  `Display the current configuration with sensitive values masked.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if !IsConfigLoaded() {
-			return fmt.Errorf("no config file found (looking for migrate-tool.yaml)")
+			return fmt.Errorf("no config file found (looking for janus.yaml)")
 		}
 
 		cfg, err := config.Load()
@@ -28,7 +28,7 @@ var configShowCmd = &cobra.Command{
 			return err
 		}
 
-		fmt.Printf("Config file: %s\n\n", "migrate-tool.yaml")
+		fmt.Printf("Config file: %s\n\n", "janus.yaml")
 		fmt.Println("Environments:")
 		for name, env := range cfg.Environments {
 			fmt.Printf("  %s:\n", name)

@@ -10,7 +10,7 @@ import (
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Show version information",
-	Long:  `Display migrate-tool version, commit hash, build date, and Go runtime info.`,
+	Long:  `Display janus version, commit hash, build date, and Go runtime info.`,
 	Run:   runVersion,
 }
 
@@ -32,7 +32,7 @@ func runVersion(cmd *cobra.Command, args []string) {
 		d = "unknown"
 	}
 
-	fmt.Printf("migrate-tool %s\n", v)
+	fmt.Printf("janus %s\n", v)
 	fmt.Printf("  commit: %s\n", c)
 	fmt.Printf("  built:  %s\n", d)
 	fmt.Printf("  go:     %s\n", runtime.Version())

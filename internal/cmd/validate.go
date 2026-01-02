@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/cesc1802/migrate-tool/internal/config"
-	"github.com/cesc1802/migrate-tool/internal/source/singlefile"
+	"github.com/cesc1802/janus/internal/config"
+	"github.com/cesc1802/janus/internal/source/singlefile"
 )
 
 var validateCmd = &cobra.Command{
@@ -16,8 +16,8 @@ var validateCmd = &cobra.Command{
 	Long: `Validate configuration file and migration files for syntax errors.
 
 Examples:
-  migrate-tool validate
-  migrate-tool validate --env=prod`,
+  janus validate
+  janus validate --env=prod`,
 	RunE: runValidate,
 }
 
