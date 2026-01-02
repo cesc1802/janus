@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="../../assets/logo/janus-roman-pillar.svg" alt="Janus Logo" width="80" height="80">
+  <img src="{{ '/assets/logo/janus-roman-pillar.svg' | relative_url }}" alt="Janus Logo" width="96" height="96">
 </div>
 
 # Janus User Guide
