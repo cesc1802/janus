@@ -2,11 +2,11 @@
 
 ## Project Overview
 
-Golang migration CLI tool - Phase 1-6 complete. A cross-platform database migration tool with configuration system, validation, migration execution, status tracking, and advanced migration control commands (force, goto) for recovery and directed migrations.
+Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migration tool with configuration system, validation, migration execution, status tracking, advanced migration control commands (force, goto), and automated build & release pipelines.
 
 **Module:** `github.com/cesc1802/migrate-tool`
 **Go Version:** 1.25.1
-**Total Files:** 35+ files (with Phase 6 advanced migration control)
+**Total Files:** 40+ files (with Phase 8 build & release automation)
 
 ---
 
@@ -48,9 +48,15 @@ Golang migration CLI tool - Phase 1-6 complete. A cross-platform database migrat
 │           └── *_test.go        # Parser & driver tests
 ├── migrations/
 │   └── 000001_create_users.sql  # Sample migration
-├── Makefile                      # Build & development tasks
+├── .github/workflows/
+│   ├── ci.yaml                  # CI/CD on PR/push (test, lint, build)
+│   └── release.yaml             # Release on version tag push
+├── Makefile                      # Build & development tasks (updated with release targets)
+├── .goreleaser.yaml             # GoReleaser config (multi-platform builds)
+├── .golangci.yaml               # Linter config (enabled linters, settings)
 ├── go.mod                        # Module dependencies
 ├── migrate-tool.example.yaml     # Configuration template
+├── LICENSE                       # MIT license
 ├── .gitignore                    # Git ignore rules
 └── .repomixignore               # Repomix ignore rules
 ```
@@ -345,19 +351,26 @@ environments:
 ### Makefile Commands
 
 ```bash
-make build          # Build binary to bin/migrate-tool (cross-platform)
-make run ARGS="..." # Run with arguments
-make test           # Run all tests with verbose output
-make lint           # Run golangci-lint
-make clean          # Remove bin/ directory
+make build              # Build binary to bin/migrate-tool
+make build-all          # Build for all platforms (linux, darwin, windows; amd64, arm64)
+make run ARGS="..."     # Run with arguments
+make test               # Run all tests with verbose output
+make test-coverage      # Run tests with coverage report (HTML)
+make lint               # Run golangci-lint
+make clean              # Remove bin/, dist/, coverage files
+make release-dry        # GoReleaser dry-run (no publish)
+make snapshot           # GoReleaser snapshot build
+make install            # Build and install to $GOPATH/bin
+make tag                # Create git version tag (interactive)
 ```
 
 ### Build Features
 - CGO disabled for cross-platform compilation
 - Version information injected via ldflags:
-  - `-X main.version` (VERSION, default: dev)
+  - `-X main.version` (VERSION from git tag or "dev")
   - `-X main.commit` (git short hash or "none")
   - `-X main.date` (UTC timestamp)
+- Multi-platform support: Linux, macOS, Windows (amd64, arm64)
 
 ---
 
@@ -556,7 +569,89 @@ make clean          # Remove bin/ directory
   - Non-TTY without --auto-approve returns descriptive error with solution
   - Confirmation happens BEFORE migration execution (safe abort point)
 
+## Completed in Phase 8 - Build & Release Automation
+
+### CI/CD Workflows (.github/workflows/)
+- **ci.yaml** - Continuous Integration on PR/push
+  - Runs on: PR to main/master, push to main/master
+  - Jobs:
+    - Build verification with `go build`
+    - Test suite with race detection & coverage: `go test -v -race -coverprofile=coverage.txt`
+    - Linting via golangci-lint (latest version)
+    - GoReleaser config validation
+  - Ensures code quality on every change
+
+- **release.yaml** - Automated Release on Version Tag
+  - Triggers on: push of `v*` tags (e.g., `v1.0.0`, `v1.0.1`)
+  - Steps:
+    1. Checkout with full history (fetch-depth: 0)
+    2. Set up Go environment from go.mod
+    3. Run full test suite
+    4. Execute GoReleaser: multi-platform builds, archives, checksums, GitHub release
+  - GitHub token permissions: contents write (for release creation)
+  - Auto-generates release notes from commit history
+
+### Release Automation (.goreleaser.yaml)
+- **Build Configuration:**
+  - Project: migrate-tool
+  - Main package: ./cmd/migrate-tool
+  - CGO disabled for cross-platform compatibility
+  - Multi-platform targets: Linux/Darwin/Windows, amd64/arm64
+  - Version info injected: version, commit hash, UTC date
+  - Pre-build hooks: `go mod tidy`, `go generate ./...`
+
+- **Release Artifacts:**
+  - Archives: tar.gz for Linux/Darwin, .zip for Windows
+  - Naming template: `migrate-tool_{version}_{os}_{arch}`
+  - Included files: README.md, LICENSE, migrate-tool.example.yaml
+  - SHA256 checksums file
+
+- **Changelog & Release Notes:**
+  - Auto-generated from GitHub commits
+  - Grouped by: Features, Bug Fixes, Documentation, Other
+  - Filters: excludes chore/ci/test commits
+  - Full changelog link included
+
+### Code Quality & Linting (.golangci.yaml)
+- **Enabled Linters:** errcheck, gosimple, govet, ineffassign, staticcheck, typecheck, unused, gofmt, goimports, misspell
+- **Timeout:** 5 minutes
+- **Settings:**
+  - gofmt: simplify enabled
+  - goimports: local-prefix for module (github.com/cesc1802/migrate-tool)
+- **Issue handling:** No defaults, all issues reported (max-issues-per-linter: 0)
+
+### Release Process
+**To create a release:**
+
+```bash
+# Option 1: Using Makefile (interactive)
+make tag
+# Prompts for version (e.g., v1.0.0), creates git tag, shows push command
+
+# Option 2: Manual git commands
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin v1.0.0
+
+# Option 3: Test release locally before pushing
+make release-dry        # Builds all platforms, no publish
+make snapshot           # Quick snapshot build for testing
+```
+
+**Automatic steps on tag push:**
+1. GitHub Actions detects `v*` tag
+2. Runs test suite to verify quality
+3. GoReleaser:
+   - Builds binaries for 6 platform combinations
+   - Creates tar.gz/zip archives
+   - Generates SHA256 checksums
+   - Creates GitHub release (draft: true, prerelease: auto)
+   - Includes binary downloads, checksums, changelog
+
+### License
+- **LICENSE** file added (MIT license)
+- Included in all release archives for distribution compliance
+
 ## Next Phases
-- Phase 8: Advanced features (undo, seed, hooks)
-- Phase 9: UI enhancements & release
+- Phase 9: Advanced features (undo, seed, hooks)
+- Phase 10: UI enhancements & documentation
 

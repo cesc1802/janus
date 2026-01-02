@@ -1,0 +1,95 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 1
+
+project_name: migrate-tool
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - id: migrate-tool
+    main: ./cmd/migrate-tool
+    binary: migrate-tool
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - id: default
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- .Arch }}
+    files:
+      - README.md
+      - LICENSE
+      - migrate-tool.example.yaml
+
+checksum:
+  name_template: "checksums.txt"
+  algorithm: sha256
+
+changelog:
+  use: github
+  sort: asc
+  groups:
+    - title: Features
+      regexp: '^.*feat(\(.+\))?:.*$'
+      order: 0
+    - title: Bug Fixes
+      regexp: '^.*fix(\(.+\))?:.*$'
+      order: 1
+    - title: Documentation
+      regexp: '^.*docs(\(.+\))?:.*$'
+      order: 2
+    - title: Other
+      order: 999
+  filters:
+    exclude:
+      - "^chore:"
+      - "^ci:"
+      - "^test:"
+
+release:
+  github:
+    owner: cesc1802
+    name: migrate-tool
+  draft: true
+  prerelease: auto
+  name_template: "v{{ .Version }}"
+  header: |
+    ## Migration Tool {{ .Version }}
+
+    ### Installation
+
+    Download the appropriate binary for your platform below.
+
+    **Verify checksum:**
+    ```bash
+    sha256sum -c checksums.txt --ignore-missing
+    ```
+  footer: |
+    ---
+    Full Changelog: https://github.com/cesc1802/migrate-tool/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+announce:
+  skip: true
