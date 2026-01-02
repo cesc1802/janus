@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install migrate-tool
+      - name: Install janus
         run: |
           curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh
 
@@ -48,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install migrate-tool
+      - name: Install janus
         run: |
           curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh
 
@@ -80,7 +80,7 @@ on:
   pull_request:
     paths:
       - 'migrations/**'
-      - 'migrate-tool.yaml'
+      - 'janus.yaml'
 
 jobs:
   validate:
@@ -88,7 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install migrate-tool
+      - name: Install janus
         run: |
           curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh
 
@@ -115,7 +115,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install migrate-tool
+      - name: Install janus
         run: |
           curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh
 
@@ -132,7 +132,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install migrate-tool
+      - name: Install janus
         run: |
           curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh
 
@@ -165,18 +165,18 @@ validate:
   stage: validate
   <<: *install_migrate_tool
   script:
-    - migrate-tool validate
+    - janus validate
   rules:
     - if: $CI_MERGE_REQUEST_ID
       changes:
         - migrations/**
-        - migrate-tool.yaml
+        - janus.yaml
 
 migrate:staging:
   stage: migrate
   <<: *install_migrate_tool
   script:
-    - migrate-tool up --env=staging --auto-approve
+    - janus up --env=staging --auto-approve
   environment:
     name: staging
   rules:
@@ -186,7 +186,7 @@ migrate:production:
   stage: migrate
   <<: *install_migrate_tool
   script:
-    - migrate-tool up --env=prod --auto-approve
+    - janus up --env=prod --auto-approve
   environment:
     name: production
   needs:
@@ -203,8 +203,8 @@ migrate:production:
   stage: migrate
   <<: *install_migrate_tool
   script:
-    - migrate-tool status --env=prod
-    - migrate-tool up --env=prod --auto-approve
+    - janus status --env=prod
+    - janus up --env=prod --auto-approve
   environment:
     name: production
   rules:
@@ -215,7 +215,7 @@ rollback:production:
   stage: migrate
   <<: *install_migrate_tool
   script:
-    - migrate-tool down --env=prod --auto-approve
+    - janus down --env=prod --auto-approve
   environment:
     name: production
   rules:
@@ -245,10 +245,10 @@ Always validate first:
 
 ```yaml
 - name: Validate migrations
-  run: migrate-tool validate --env=prod
+  run: janus validate --env=prod
 
 - name: Run migrations
-  run: migrate-tool up --env=prod --auto-approve
+  run: janus up --env=prod --auto-approve
 ```
 
 ### 3. Show Status for Visibility
@@ -257,13 +257,13 @@ Log migration status:
 
 ```yaml
 - name: Pre-migration status
-  run: migrate-tool status --env=prod
+  run: janus status --env=prod
 
 - name: Run migrations
-  run: migrate-tool up --env=prod --auto-approve
+  run: janus up --env=prod --auto-approve
 
 - name: Post-migration status
-  run: migrate-tool status --env=prod
+  run: janus status --env=prod
 ```
 
 ### 4. Use --auto-approve in CI
@@ -271,7 +271,7 @@ Log migration status:
 Skip interactive prompts:
 
 ```bash
-migrate-tool up --env=prod --auto-approve
+janus up --env=prod --auto-approve
 ```
 
 ### 5. Pin Versions in Production
@@ -279,7 +279,7 @@ migrate-tool up --env=prod --auto-approve
 Use specific version instead of latest:
 
 ```yaml
-- name: Install migrate-tool
+- name: Install janus
   run: |
     curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh -s -- --version v1.0.0
 ```
@@ -307,13 +307,13 @@ migrate:production:
 
 GitHub:
 ```yaml
-- name: Cache migrate-tool
+- name: Cache janus
   uses: actions/cache@v4
   with:
-    path: /usr/local/bin/migrate-tool
-    key: migrate-tool-${{ runner.os }}-v1.0.0
+    path: /usr/local/bin/janus
+    key: janus-${{ runner.os }}-v1.0.0
 
-- name: Install migrate-tool
+- name: Install janus
   run: |
     if ! command -v migrate-tool &> /dev/null; then
       curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh -s -- --version v1.0.0
@@ -333,7 +333,7 @@ on:
   pull_request:
     paths:
       - 'migrations/**'
-      - 'migrate-tool.yaml'
+      - 'janus.yaml'
 
 env:
   MIGRATE_TOOL_VERSION: "v1.0.0"
@@ -344,12 +344,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install migrate-tool
+      - name: Install janus
         run: |
           curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh -s -- --version ${{ env.MIGRATE_TOOL_VERSION }}
 
       - name: Validate migrations
-        run: migrate-tool validate
+        run: janus validate
 
   staging:
     needs: validate
@@ -359,24 +359,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install migrate-tool
+      - name: Install janus
         run: |
           curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh -s -- --version ${{ env.MIGRATE_TOOL_VERSION }}
 
       - name: Pre-migration status
         env:
           DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
-        run: migrate-tool status --env=staging
+        run: janus status --env=staging
 
       - name: Run migrations
         env:
           DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
-        run: migrate-tool up --env=staging --auto-approve
+        run: janus up --env=staging --auto-approve
 
       - name: Post-migration status
         env:
           DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
-        run: migrate-tool status --env=staging
+        run: janus status --env=staging
 
   production:
     needs: staging
@@ -385,24 +385,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install migrate-tool
+      - name: Install janus
         run: |
           curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh -s -- --version ${{ env.MIGRATE_TOOL_VERSION }}
 
       - name: Pre-migration status
         env:
           DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-        run: migrate-tool status --env=prod
+        run: janus status --env=prod
 
       - name: Run migrations
         env:
           DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-        run: migrate-tool up --env=prod --auto-approve
+        run: janus up --env=prod --auto-approve
 
       - name: Post-migration status
         env:
           DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-        run: migrate-tool status --env=prod
+        run: janus status --env=prod
 ```
 
 ## Rollback Automation
@@ -417,14 +417,14 @@ rollback:
   steps:
     - uses: actions/checkout@v4
 
-    - name: Install migrate-tool
+    - name: Install janus
       run: |
         curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh
 
     - name: Rollback
       env:
         DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-      run: migrate-tool down --env=prod --auto-approve
+      run: janus down --env=prod --auto-approve
 ```
 
 ### Trigger via CLI

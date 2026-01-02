@@ -7,20 +7,20 @@ This guide covers how to create and structure migration files.
 Generate a new migration file:
 
 ```bash
-migrate-tool create <name>
+janus create <name>
 ```
 
 ### Examples
 
 ```bash
 # Create a users table migration
-migrate-tool create create_users
+janus create create_users
 
 # Add a column
-migrate-tool create add_email_to_users
+janus create add_email_to_users
 
 # Create an index
-migrate-tool create add_email_index
+janus create add_email_index
 ```
 
 ### Output
@@ -167,10 +167,10 @@ DROP TABLE users;
 Files are numbered sequentially: `000001`, `000002`, `000003`
 
 ```bash
-migrate-tool create create_users
+janus create create_users
 # Creates: 000001_create_users.sql
 
-migrate-tool create create_posts
+janus create create_posts
 # Creates: 000002_create_posts.sql
 ```
 
@@ -179,7 +179,7 @@ migrate-tool create create_posts
 Use `--seq=false` for timestamp-based versions:
 
 ```bash
-migrate-tool create add_email --seq=false
+janus create add_email --seq=false
 # Creates: 20260102150405_add_email.sql
 ```
 
@@ -203,12 +203,12 @@ Keep migrations focused:
 
 ```bash
 # Good - separate migrations
-migrate-tool create create_users
-migrate-tool create create_posts
-migrate-tool create add_user_phone
+janus create create_users
+janus create create_posts
+janus create add_user_phone
 
 # Bad - too many changes in one
-migrate-tool create create_all_tables_and_add_phone
+janus create create_all_tables_and_add_phone
 ```
 
 ### 3. Use Descriptive Names
@@ -217,12 +217,12 @@ Names should describe the change:
 
 ```bash
 # Good
-migrate-tool create add_email_unique_constraint
-migrate-tool create remove_legacy_columns
+janus create add_email_unique_constraint
+janus create remove_legacy_columns
 
 # Bad
-migrate-tool create update_users
-migrate-tool create fix
+janus create update_users
+janus create fix
 ```
 
 ### 4. Test Rollbacks
@@ -230,9 +230,9 @@ migrate-tool create fix
 Verify DOWN migrations work:
 
 ```bash
-migrate-tool up --env=dev    # Apply
-migrate-tool down --env=dev  # Rollback
-migrate-tool up --env=dev    # Apply again
+janus up --env=dev    # Apply
+janus down --env=dev  # Rollback
+janus up --env=dev    # Apply again
 ```
 
 ### 5. Handle Data Migrations Carefully
@@ -296,7 +296,7 @@ CREATE TABLE users (
 Check for syntax errors before running:
 
 ```bash
-migrate-tool validate --env=dev
+janus validate --env=dev
 ```
 
 Output:

@@ -56,7 +56,7 @@ At runtime, `${DATABASE_URL}` expands to the value of the `DATABASE_URL` environ
 **Linux/macOS:**
 ```bash
 export DATABASE_URL="postgres://user:pass@prod-host:5432/myapp"
-migrate-tool up --env=prod
+janus up --env=prod
 ```
 
 **Windows (PowerShell):**
@@ -138,7 +138,7 @@ database_url: "sqlite3:///:memory:"
 Use `--config` flag to specify an alternate config file:
 
 ```bash
-migrate-tool status --config=/path/to/custom-config.yaml --env=prod
+janus status --config=/path/to/custom-config.yaml --env=prod
 ```
 
 ## View Configuration
@@ -146,7 +146,7 @@ migrate-tool status --config=/path/to/custom-config.yaml --env=prod
 Use `config show` to display current configuration (passwords masked):
 
 ```bash
-migrate-tool config show
+janus config show
 ```
 
 Output:
@@ -172,7 +172,7 @@ Defaults:
 Check for configuration errors before running migrations:
 
 ```bash
-migrate-tool validate
+janus validate
 ```
 
 Output:

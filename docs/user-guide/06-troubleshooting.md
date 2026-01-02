@@ -11,7 +11,7 @@ A "dirty" database indicates a migration failed mid-execution. The database is i
 ### Detecting Dirty State
 
 ```bash
-migrate-tool status --env=dev
+janus status --env=dev
 ```
 
 Output:
@@ -33,7 +33,7 @@ Fix with: migrate-tool force 5 --env=dev
 
 Check what migration failed:
 ```bash
-migrate-tool history --env=dev
+janus history --env=dev
 ```
 
 Look at the migration file to understand what was attempted.
@@ -50,7 +50,7 @@ Use `force` to mark the database as clean:
 
 ```bash
 # Set to last successful version
-migrate-tool force 4 --env=dev
+janus force 4 --env=dev
 ```
 
 Output:
@@ -76,20 +76,20 @@ After forcing version:
 # vim migrations/000005_xxx.sql
 
 # Re-apply
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 ### Force Command Reference
 
 ```bash
 # Set to specific version
-migrate-tool force 5 --env=dev
+janus force 5 --env=dev
 
 # Reset to base (version 0)
-migrate-tool force 0 --env=dev
+janus force 0 --env=dev
 
 # Clear all version info (NilVersion)
-migrate-tool force -1 --env=dev
+janus force -1 --env=dev
 ```
 
 ## Common Errors
@@ -104,12 +104,12 @@ Error: config file not found: migrate-tool.yaml
 
 1. Create the config file:
    ```bash
-   cp migrate-tool.example.yaml migrate-tool.yaml
+   cp janus.example.yaml janus.yaml
    ```
 
 2. Or specify path:
    ```bash
-   migrate-tool status --config=/path/to/config.yaml
+   janus status --config=/path/to/config.yaml
    ```
 
 ### Environment Not Found
@@ -122,16 +122,16 @@ Error: environment 'production' not found
 
 1. Check available environments:
    ```bash
-   migrate-tool config show
+   janus config show
    ```
 
 2. Check spelling - environments are case-sensitive
    ```bash
    # Wrong
-   migrate-tool up --env=Production
+   janus up --env=Production
 
    # Correct
-   migrate-tool up --env=prod
+   janus up --env=prod
    ```
 
 ### Database Connection Failed
@@ -153,7 +153,7 @@ Error: failed to connect to database: dial tcp 127.0.0.1:5432: connect: connecti
 
 2. Check connection string:
    ```bash
-   migrate-tool config show --env=dev
+   janus config show --env=dev
    ```
 
 3. Test connection directly:
@@ -175,7 +175,7 @@ Error: password authentication failed for user "postgres"
 
 1. Verify credentials in config:
    ```bash
-   migrate-tool config show --env=dev
+   janus config show --env=dev
    ```
 
 2. Check environment variable expansion:
@@ -200,7 +200,7 @@ No migrations to apply
 
 2. Config points to correct path:
    ```bash
-   migrate-tool config show --env=dev
+   janus config show --env=dev
    ```
 
 3. Migration files have correct format:
@@ -228,7 +228,7 @@ Error: failed to parse migration 000003_xxx.sql: missing UP section
 
 2. Validate all migrations:
    ```bash
-   migrate-tool validate --env=dev
+   janus validate --env=dev
    ```
 
 ### SSL Connection Error
@@ -254,7 +254,7 @@ database_url: "postgres://...?sslmode=require"
 ### Run Validation
 
 ```bash
-migrate-tool validate --env=dev
+janus validate --env=dev
 ```
 
 ### Common Warnings
@@ -287,16 +287,16 @@ The migration failed before any changes applied.
 
 ```bash
 # Check status
-migrate-tool status --env=dev
+janus status --env=dev
 
 # If dirty, force to previous version
-migrate-tool force 4 --env=dev
+janus force 4 --env=dev
 
 # Fix migration file
 # vim migrations/000005_xxx.sql
 
 # Re-apply
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 ### Scenario 2: Migration Partially Applied
@@ -313,35 +313,35 @@ psql postgres://... <<SQL
 SQL
 
 # 3. Force to appropriate version
-migrate-tool force 5 --env=dev  # If completed
+janus force 5 --env=dev  # If completed
 # OR
-migrate-tool force 4 --env=dev  # If rolled back
+janus force 4 --env=dev  # If rolled back
 
 # 4. Continue
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 ### Scenario 3: Need to Rollback Production
 
 ```bash
 # 1. Check current state
-migrate-tool status --env=prod
+janus status --env=prod
 
 # 2. Rollback one migration
-migrate-tool down --env=prod
+janus down --env=prod
 
 # 3. Verify
-migrate-tool status --env=prod
+janus status --env=prod
 ```
 
 ### Scenario 4: Reset Development Database
 
 ```bash
 # Rollback all migrations
-migrate-tool goto 0 --env=dev
+janus goto 0 --env=dev
 
 # Re-apply all
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 ## Getting Help
@@ -350,17 +350,17 @@ migrate-tool up --env=dev
 
 ```bash
 # General help
-migrate-tool --help
+janus --help
 
 # Command-specific help
-migrate-tool up --help
-migrate-tool down --help
+janus up --help
+janus down --help
 ```
 
 ### Show Version
 
 ```bash
-migrate-tool version
+janus version
 ```
 
 Include version info when reporting issues.
@@ -369,7 +369,7 @@ Include version info when reporting issues.
 
 Check config resolution:
 ```bash
-migrate-tool config show --env=dev
+janus config show --env=dev
 ```
 
 ### Debug Connection

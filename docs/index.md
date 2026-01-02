@@ -20,7 +20,7 @@ Cross-platform database migration CLI with single-file up/down support.
 curl -sSL https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/install.sh | sh
 
 # Run migrations
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 ## Features

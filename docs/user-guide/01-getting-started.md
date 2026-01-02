@@ -33,7 +33,7 @@ irm https://raw.githubusercontent.com/cesc1802/migration-tool/master/scripts/ins
 
 **Build from source:**
 ```bash
-go install github.com/cesc1802/migrate-tool/cmd/migrate-tool@latest
+go install github.com/cesc1802/janus/cmd/janus@latest
 ```
 
 **Manual download:** Visit [GitHub Releases](https://github.com/cesc1802/migration-tool/releases)
@@ -43,7 +43,7 @@ See [Deployment Guide](../deployment-guide.md) for advanced installation options
 ## Verify Installation
 
 ```bash
-migrate-tool version
+janus version
 ```
 
 Expected output:
@@ -86,7 +86,7 @@ New-Item -ItemType Directory -Path migrations -Force
 ### 3. Create Your First Migration
 
 ```bash
-migrate-tool create create_users
+janus create create_users
 ```
 
 Output:
@@ -116,7 +116,7 @@ DROP TABLE users;
 ### 5. Check Status
 
 ```bash
-migrate-tool status --env=dev
+janus status --env=dev
 ```
 
 Output:
@@ -131,7 +131,7 @@ Pending: 1
 ### 6. Apply the Migration
 
 ```bash
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 Output:
@@ -143,7 +143,7 @@ Current version: 1
 ### 7. Verify
 
 ```bash
-migrate-tool status --env=dev
+janus status --env=dev
 ```
 
 Output:

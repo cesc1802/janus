@@ -55,7 +55,7 @@ export PATH="$HOME/.local/bin:$PATH"
 #### Custom Installation Directory
 
 ```bash
-./scripts/install.sh --dir /opt/migrate-tool
+./scripts/install.sh --dir /opt/janus
 ```
 
 ### Options
@@ -166,7 +166,7 @@ If `migrate-tool` command not found:
 
 ```bash
 # Check if installed
-ls -l /usr/local/bin/migrate-tool
+ls -l /usr/local/bin/janus
 
 # Add to PATH if needed
 export PATH="/usr/local/bin:$PATH"
@@ -181,10 +181,10 @@ After installation:
 
 ```bash
 # Check version
-migrate-tool version
+janus version
 
 # Show help
-migrate-tool --help
+janus --help
 ```
 
 ### Direct Binary Download
@@ -201,8 +201,8 @@ If you prefer manual installation:
 5. Extract and install:
    ```bash
    tar -xzf migrate-tool_0.0.3_linux_amd64.tar.gz
-   sudo mv migrate-tool /usr/local/bin/
-   sudo chmod +x /usr/local/bin/migrate-tool
+   sudo mv janus /usr/local/bin/
+   sudo chmod +x /usr/local/bin/janus
    ```
 
 ### CI/CD Integration
@@ -225,7 +225,7 @@ Alternative to using the install script:
 ```bash
 git clone https://github.com/cesc1802/migration-tool.git
 cd migration-tool
-go install ./cmd/migrate-tool
+go install ./cmd/janus
 ```
 
 Requires: Go 1.25.1 or higher
@@ -521,10 +521,10 @@ For reproducible deployments, always specify a version:
 
 ```bash
 # System-wide installation
-sudo rm /usr/local/bin/migrate-tool
+sudo rm /usr/local/bin/janus
 
 # User-local installation
-rm ~/.local/bin/migrate-tool
+rm ~/.local/bin/janus
 ```
 
 ---

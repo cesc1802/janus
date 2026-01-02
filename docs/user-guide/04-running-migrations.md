@@ -7,7 +7,7 @@ This guide covers all commands for applying and managing migrations.
 View current migration state:
 
 ```bash
-migrate-tool status --env=dev
+janus status --env=dev
 ```
 
 Output:
@@ -34,7 +34,7 @@ Pending: 2
 ### Apply All Pending
 
 ```bash
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 Output:
@@ -49,7 +49,7 @@ Use `--steps` to limit migrations applied:
 
 ```bash
 # Apply next 2 migrations only
-migrate-tool up --steps=2 --env=dev
+janus up --steps=2 --env=dev
 ```
 
 Output:
@@ -61,7 +61,7 @@ Current version: 2
 ### No Pending Migrations
 
 ```bash
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 Output:
@@ -77,7 +77,7 @@ Current version: 3
 Safety default - only rolls back one migration:
 
 ```bash
-migrate-tool down --env=dev
+janus down --env=dev
 ```
 
 Output:
@@ -92,7 +92,7 @@ Explicit `--steps` required for larger rollbacks:
 
 ```bash
 # Rollback 3 migrations
-migrate-tool down --steps=3 --env=dev
+janus down --steps=3 --env=dev
 ```
 
 Output:
@@ -104,7 +104,7 @@ Current version: 0
 ### Rollback to Base
 
 ```bash
-migrate-tool down --steps=99 --env=dev
+janus down --steps=99 --env=dev
 ```
 
 Output:
@@ -118,7 +118,7 @@ Current version: none (clean slate)
 List migrations with applied status:
 
 ```bash
-migrate-tool history --env=dev
+janus history --env=dev
 ```
 
 Output:
@@ -138,10 +138,10 @@ Migration History (env: dev)
 
 ```bash
 # Show last 20 migrations
-migrate-tool history --limit=20 --env=dev
+janus history --limit=20 --env=dev
 
 # Show all migrations
-migrate-tool history --limit=999 --env=dev
+janus history --limit=999 --env=dev
 ```
 
 ## Go to Specific Version (goto)
@@ -151,7 +151,7 @@ Migrate to a target version (up or down):
 ### Migrate Up to Version
 
 ```bash
-migrate-tool goto 10 --env=dev
+janus goto 10 --env=dev
 ```
 
 Output:
@@ -170,7 +170,7 @@ Migrated to version 10
 ### Rollback to Version
 
 ```bash
-migrate-tool goto 5 --env=dev
+janus goto 5 --env=dev
 ```
 
 Output:
@@ -189,7 +189,7 @@ Migrated to version 5
 ### Reset to Base
 
 ```bash
-migrate-tool goto 0 --env=dev
+janus goto 0 --env=dev
 ```
 
 Rolls back all migrations.
@@ -197,7 +197,7 @@ Rolls back all migrations.
 ### Already at Version
 
 ```bash
-migrate-tool goto 5 --env=dev
+janus goto 5 --env=dev
 ```
 
 Output:
@@ -211,16 +211,16 @@ Already at version 5
 
 ```bash
 # Check configuration
-migrate-tool config show --env=dev
+janus config show --env=dev
 
 # Verify migrations
-migrate-tool validate --env=dev
+janus validate --env=dev
 
 # Apply all migrations
-migrate-tool up --env=dev
+janus up --env=dev
 
 # Confirm status
-migrate-tool status --env=dev
+janus status --env=dev
 ```
 
 ### Staged Deployment
@@ -229,26 +229,26 @@ Apply migrations one at a time for safer rollout:
 
 ```bash
 # Check pending
-migrate-tool status --env=prod
+janus status --env=prod
 
 # Apply one migration
-migrate-tool up --steps=1 --env=prod
+janus up --steps=1 --env=prod
 
 # Verify application works
 # ... test your app ...
 
 # Apply next migration
-migrate-tool up --steps=1 --env=prod
+janus up --steps=1 --env=prod
 ```
 
 ### Quick Rollback
 
 ```bash
 # Something went wrong, rollback last migration
-migrate-tool down --env=prod
+janus down --env=prod
 
 # Verify
-migrate-tool status --env=prod
+janus status --env=prod
 ```
 
 ### Development Reset
@@ -257,13 +257,13 @@ Reset to specific state during development:
 
 ```bash
 # Rollback to version 3
-migrate-tool goto 3 --env=dev
+janus goto 3 --env=dev
 
 # Make changes to migration 4
 # Edit migrations/000004_xxx.sql
 
 # Re-apply
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 ## Environment Examples
@@ -272,31 +272,31 @@ migrate-tool up --env=dev
 
 ```bash
 # Fast iteration - apply all
-migrate-tool up --env=dev
+janus up --env=dev
 
 # Quick rollback
-migrate-tool down --env=dev
+janus down --env=dev
 ```
 
 ### Staging
 
 ```bash
 # Verify before production
-migrate-tool status --env=staging
-migrate-tool up --env=staging
+janus status --env=staging
+janus up --env=staging
 ```
 
 ### Production
 
 ```bash
 # Check status
-migrate-tool status --env=prod
+janus status --env=prod
 
 # Preview changes
-migrate-tool history --env=prod
+janus history --env=prod
 
 # Apply step by step
-migrate-tool up --steps=1 --env=prod
+janus up --steps=1 --env=prod
 ```
 
 ## Command Summary

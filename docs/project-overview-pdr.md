@@ -207,7 +207,7 @@ A robust, cross-platform database migration CLI tool that provides single-file u
 ---
 
 ## Contact & Maintenance
-- **Module:** github.com/cesc1802/migrate-tool
+- **Module:** github.com/cesc1802/janus
 - **Maintained By:** Development Team
 - **Last Updated:** 2026-01-01
 

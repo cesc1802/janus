@@ -84,30 +84,30 @@ $env:PROD_DATABASE_URL = "postgres://user:pass@prod.example.com:5432/myapp"
 
 ```bash
 # Create new migration
-migrate-tool create add_user_phone
+janus create add_user_phone
 
 # Edit the migration file
 # vim migrations/000005_add_user_phone.sql
 
 # Apply to dev
-migrate-tool up --env=dev
+janus up --env=dev
 
 # Test your application
 
 # Need changes? Rollback and edit
-migrate-tool down --env=dev
+janus down --env=dev
 # Edit migration
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 **2. Test in Staging**
 
 ```bash
 # Check staging status
-migrate-tool status --env=staging
+janus status --env=staging
 
 # Apply to staging
-migrate-tool up --env=staging
+janus up --env=staging
 
 # Verify application works in staging
 ```
@@ -116,13 +116,13 @@ migrate-tool up --env=staging
 
 ```bash
 # Check production status
-migrate-tool status --env=prod
+janus status --env=prod
 
 # Preview pending migrations
-migrate-tool history --env=prod
+janus history --env=prod
 
 # Apply (with confirmation prompt)
-migrate-tool up --env=prod
+janus up --env=prod
 ```
 
 ## Quick Status Check
@@ -133,7 +133,7 @@ Check all environments at once:
 ```bash
 for env in dev staging prod; do
   echo "=== $env ==="
-  migrate-tool status --env=$env
+  janus status --env=$env
   echo
 done
 ```
@@ -179,16 +179,16 @@ Safer for production deployments:
 
 ```bash
 # Check pending count
-migrate-tool status --env=prod
+janus status --env=prod
 
 # Apply one migration
-migrate-tool up --steps=1 --env=prod
+janus up --steps=1 --env=prod
 
 # Verify application
 # ... test critical paths ...
 
 # Continue with next
-migrate-tool up --steps=1 --env=prod
+janus up --steps=1 --env=prod
 ```
 
 ### Quick Rollback Plan
@@ -197,10 +197,10 @@ If issues occur:
 
 ```bash
 # Rollback the last migration
-migrate-tool down --env=prod
+janus down --env=prod
 
 # Verify rollback
-migrate-tool status --env=prod
+janus status --env=prod
 ```
 
 ## Environment Parity
@@ -227,9 +227,9 @@ Verify environments are at same version:
 
 ```bash
 # Get versions
-DEV_VER=$(migrate-tool status --env=dev | grep "Current Version" | awk '{print $3}')
-STAGING_VER=$(migrate-tool status --env=staging | grep "Current Version" | awk '{print $3}')
-PROD_VER=$(migrate-tool status --env=prod | grep "Current Version" | awk '{print $3}')
+DEV_VER=$(janus status --env=dev | grep "Current Version" | awk '{print $3}')
+STAGING_VER=$(janus status --env=staging | grep "Current Version" | awk '{print $3}')
+PROD_VER=$(janus status --env=prod | grep "Current Version" | awk '{print $3}')
 
 echo "dev: $DEV_VER, staging: $STAGING_VER, prod: $PROD_VER"
 ```
@@ -258,7 +258,7 @@ Applied 2 migration(s) successfully
 Skip prompts in automated pipelines:
 
 ```bash
-migrate-tool up --env=prod --auto-approve
+janus up --env=prod --auto-approve
 ```
 
 Use with caution - typically in controlled CI/CD environments only.
@@ -271,15 +271,15 @@ Always test in dev and staging first:
 
 ```bash
 # 1. Dev
-migrate-tool up --env=dev
+janus up --env=dev
 # Test locally
 
 # 2. Staging
-migrate-tool up --env=staging
+janus up --env=staging
 # Integration tests
 
 # 3. Production
-migrate-tool up --env=prod
+janus up --env=prod
 ```
 
 ### 2. Use require_confirmation for Protected Environments
@@ -308,7 +308,7 @@ Before deploying:
 
 ```bash
 # Rollback command ready
-migrate-tool down --env=prod
+janus down --env=prod
 ```
 
 ### 5. Document Breaking Changes
@@ -335,7 +335,7 @@ Error: environment 'stage' not found
 
 Fix: Check environment name spelling
 ```bash
-migrate-tool config show  # List available environments
+janus config show  # List available environments
 ```
 
 ### Different Versions Across Environments
@@ -344,13 +344,13 @@ Check status and sync:
 
 ```bash
 # Check all environments
-migrate-tool status --env=dev
-migrate-tool status --env=staging
-migrate-tool status --env=prod
+janus status --env=dev
+janus status --env=staging
+janus status --env=prod
 
 # Apply missing migrations
-migrate-tool up --env=staging
-migrate-tool up --env=prod
+janus up --env=staging
+janus up --env=prod
 ```
 
 ## Next Steps

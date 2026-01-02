@@ -54,7 +54,7 @@ import (
 	"standard/library"
 
 	"github.com/external-package"
-	"github.com/cesc1802/migrate-tool/internal/package"
+	"github.com/cesc1802/janus/internal/package"
 )
 ```
 
@@ -67,7 +67,7 @@ Order: Standard library → External → Internal (separated by blank lines)
 ### Root Command Pattern
 ```go
 var rootCmd = &cobra.Command{
-	Use:   "migrate-tool",
+	Use:   "janus",
 	Short: "Brief description",
 	Long:  `Detailed description with examples.`,
 	// PersistentPreRunE for setup
@@ -117,7 +117,7 @@ func initConfig() {
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	} else {
-		viper.SetConfigName("migrate-tool")
+		viper.SetConfigName("janus")
 		viper.SetConfigType("yaml")
 		viper.AddConfigPath(".")
 	}
@@ -423,7 +423,7 @@ func runVersion(cmd *cobra.Command, args []string) {
 	}
 
 	// Display version, commit, date, Go version, OS/arch
-	fmt.Printf("migrate-tool %s\n", v)
+	fmt.Printf("janus %s\n", v)
 	fmt.Printf("  commit: %s\n", c)
 	fmt.Printf("  built:  %s\n", d)
 	fmt.Printf("  go:     %s\n", runtime.Version())
@@ -727,7 +727,7 @@ _ = reader.Close()
 ```go
 const (
 	DefaultEnv        = "dev"
-	DefaultConfigName = "migrate-tool"
+	DefaultConfigName = "janus"
 	ConfigTypeYAML    = "yaml"
 )
 ```
@@ -760,13 +760,13 @@ var (
 ### Cross-Platform Build
 ```bash
 # Linux
-GOOS=linux GOARCH=amd64 go build -o bin/migrate-tool-linux-amd64
+GOOS=linux GOARCH=amd64 go build -o bin/janus-linux-amd64
 
 # macOS
-GOOS=darwin GOARCH=amd64 go build -o bin/migrate-tool-darwin-amd64
+GOOS=darwin GOARCH=amd64 go build -o bin/janus-darwin-amd64
 
 # Windows
-GOOS=windows GOARCH=amd64 go build -o bin/migrate-tool-windows-amd64.exe
+GOOS=windows GOARCH=amd64 go build -o bin/janus-windows-amd64.exe
 ```
 
 ---
@@ -926,13 +926,13 @@ import (
     "github.com/external-package"
     "github.com/another/external"
 
-    "github.com/cesc1802/migrate-tool/internal/package"
+    "github.com/cesc1802/janus/internal/package"
 )
 ```
 Groups separated by blank lines in this order:
 1. Standard library imports
 2. Third-party imports
-3. Internal project imports (prefixed with `github.com/cesc1802/migrate-tool/internal/`)
+3. Internal project imports (prefixed with `github.com/cesc1802/janus/internal/`)
 
 **Error Handling in Deferred Cleanup:**
 ```go

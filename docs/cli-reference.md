@@ -18,7 +18,7 @@ migrate-tool is a cross-platform database migration CLI with support for Postgre
 Display current configuration with password masking.
 
 ```bash
-migrate-tool config show [--config=PATH]
+janus config show [--config=PATH]
 ```
 
 **Output:**
@@ -47,7 +47,7 @@ Defaults:
 Apply pending migrations to a specific environment.
 
 ```bash
-migrate-tool up [--steps=N] [--env=ENV] [--config=PATH]
+janus up [--steps=N] [--env=ENV] [--config=PATH]
 ```
 
 **Flags:**
@@ -64,16 +64,16 @@ migrate-tool up [--steps=N] [--env=ENV] [--config=PATH]
 **Examples:**
 ```bash
 # Apply all pending migrations to dev environment
-migrate-tool up --env=dev
+janus up --env=dev
 
 # Apply next 2 migrations
-migrate-tool up --steps=2 --env=staging
+janus up --steps=2 --env=staging
 
 # Apply to production (config must exist)
-migrate-tool up --env=prod
+janus up --env=prod
 
 # Use custom config file
-migrate-tool up --config=/path/to/config.yaml --env=prod
+janus up --config=/path/to/config.yaml --env=prod
 ```
 
 **Output:**
@@ -88,7 +88,7 @@ Current version: 3
 Rollback the last applied migration(s) from a specific environment.
 
 ```bash
-migrate-tool down [--steps=N] [--env=ENV] [--config=PATH]
+janus down [--steps=N] [--env=ENV] [--config=PATH]
 ```
 
 **Flags:**
@@ -108,13 +108,13 @@ The default is 1 step (not all) to prevent accidental data loss. Explicit `--ste
 **Examples:**
 ```bash
 # Rollback 1 migration (default, safe)
-migrate-tool down --env=dev
+janus down --env=dev
 
 # Rollback 3 migrations
-migrate-tool down --steps=3 --env=staging
+janus down --steps=3 --env=staging
 
 # Rollback all migrations (explicit)
-migrate-tool down --steps=99 --env=dev
+janus down --steps=99 --env=dev
 ```
 
 **Output:**
@@ -135,7 +135,7 @@ Current version: none (clean slate)
 Display current migration status for a specific environment.
 
 ```bash
-migrate-tool status [--env=ENV] [--config=PATH]
+janus status [--env=ENV] [--config=PATH]
 ```
 
 **Flags:**
@@ -154,10 +154,10 @@ Indicates migration partially executed and failed. Database left in inconsistent
 **Examples:**
 ```bash
 # Check status of dev environment
-migrate-tool status --env=dev
+janus status --env=dev
 
 # Check prod status
-migrate-tool status --env=prod
+janus status --env=prod
 ```
 
 **Output (normal):**
@@ -197,7 +197,7 @@ Fix with: migrate-tool force 5 --env=prod
 Display list of available migrations with applied status for a specific environment.
 
 ```bash
-migrate-tool history [--limit=N] [--env=ENV] [--config=PATH]
+janus history [--limit=N] [--env=ENV] [--config=PATH]
 ```
 
 **Flags:**
@@ -215,13 +215,13 @@ migrate-tool history [--limit=N] [--env=ENV] [--config=PATH]
 **Examples:**
 ```bash
 # Show last 10 migrations (default)
-migrate-tool history --env=dev
+janus history --env=dev
 
 # Show last 20 migrations
-migrate-tool history --limit=20 --env=staging
+janus history --limit=20 --env=staging
 
 # Show all migrations (large limit)
-migrate-tool history --limit=999 --env=dev
+janus history --limit=999 --env=dev
 ```
 
 **Output:**
@@ -243,7 +243,7 @@ Migration History (env: dev)
 Force set migration version without running any migrations (for dirty state recovery).
 
 ```bash
-migrate-tool force <version> [--env=ENV] [--config=PATH]
+janus force <version> [--env=ENV] [--config=PATH]
 ```
 
 **Arguments:**
@@ -266,13 +266,13 @@ This command sets version directly in database without running migrations. Only 
 **Examples:**
 ```bash
 # Reset to initial state after failed migration
-migrate-tool force 0 --env=dev
+janus force 0 --env=dev
 
 # Clear version (NilVersion)
-migrate-tool force -1 --env=dev
+janus force -1 --env=dev
 
 # Set to specific version when recovery needed
-migrate-tool force 5 --env=staging
+janus force 5 --env=staging
 ```
 
 **Output:**
@@ -296,7 +296,7 @@ Version forced to 0
 Migrate to a specific version (up or down).
 
 ```bash
-migrate-tool goto <version> [--env=ENV] [--config=PATH]
+janus goto <version> [--env=ENV] [--config=PATH]
 ```
 
 **Arguments:**
@@ -321,13 +321,13 @@ Prevents migration if database is in dirty state. Use `force` command to fix fir
 **Examples:**
 ```bash
 # Migrate to version 10 (up or down based on current)
-migrate-tool goto 10 --env=dev
+janus goto 10 --env=dev
 
 # Rollback to version 0 (rollback all)
-migrate-tool goto 0 --env=dev
+janus goto 0 --env=dev
 
 # Migrate to specific version in staging
-migrate-tool goto 5 --env=staging
+janus goto 5 --env=staging
 ```
 
 **Output (UP):**
@@ -419,37 +419,37 @@ Set to `true` for environments requiring user confirmation before migrations. Us
 ### Initial Setup
 ```bash
 # Check configuration
-migrate-tool config show --env=dev
+janus config show --env=dev
 
 # Check current status
-migrate-tool status --env=dev
+janus status --env=dev
 
 # Apply all pending migrations
-migrate-tool up --env=dev
+janus up --env=dev
 ```
 
 ### Deploy to Production
 ```bash
 # Preview migrations
-migrate-tool history --env=prod
+janus history --env=prod
 
 # Check current status
-migrate-tool status --env=prod
+janus status --env=prod
 
 # Apply migrations (with --steps for staged rollout)
-migrate-tool up --steps=1 --env=prod
+janus up --steps=1 --env=prod
 ```
 
 ### Rollback on Error
 ```bash
 # Check status
-migrate-tool status --env=prod
+janus status --env=prod
 
 # Rollback 1 migration
-migrate-tool down --env=prod
+janus down --env=prod
 
 # Verify state
-migrate-tool status --env=prod
+janus status --env=prod
 ```
 
 ### Multi-Environment Management
@@ -457,7 +457,7 @@ migrate-tool status --env=prod
 # Check all environments
 for env in dev staging prod; do
   echo "=== $env ==="
-  migrate-tool status --env=$env
+  janus status --env=$env
 done
 ```
 
@@ -550,7 +550,7 @@ DROP TABLE users;
 Create a new migration file with standard UP/DOWN template.
 
 ```bash
-migrate-tool create <name> [--seq]
+janus create <name> [--seq]
 ```
 
 **Arguments:**
@@ -575,13 +575,13 @@ migrate-tool create <name> [--seq]
 **Examples:**
 ```bash
 # Create migration with sequential version
-migrate-tool create create_users_table
+janus create create_users_table
 
 # Create migration with timestamp version
-migrate-tool create add_email_to_users --seq=false
+janus create add_email_to_users --seq=false
 
 # Migration name with spaces (sanitized to underscores)
-migrate-tool create "add post tags"
+janus create "add post tags"
 ```
 
 **Template Output:**
@@ -614,7 +614,7 @@ Created: /path/to/migrations/000001_create_users.sql
 Validate configuration file and migration files for syntax errors.
 
 ```bash
-migrate-tool validate [--env=ENV]
+janus validate [--env=ENV]
 ```
 
 **Flags:**
@@ -635,13 +635,13 @@ migrate-tool validate [--env=ENV]
 **Examples:**
 ```bash
 # Validate all environments
-migrate-tool validate
+janus validate
 
 # Validate only production
-migrate-tool validate --env=prod
+janus validate --env=prod
 
 # Validate staging
-migrate-tool validate --env=staging
+janus validate --env=staging
 ```
 
 **Output (success):**
@@ -692,7 +692,7 @@ ERRORS:
 Display version information including commit hash, build date, and Go runtime details.
 
 ```bash
-migrate-tool version
+janus version
 ```
 
 **Behavior:**
@@ -704,7 +704,7 @@ migrate-tool version
 
 **Examples:**
 ```bash
-migrate-tool version
+janus version
 ```
 
 **Output (Release):**
@@ -739,7 +739,7 @@ migrate-tool dev
 To see installed version:
 
 ```bash
-migrate-tool version
+janus version
 ```
 
 (Displays version, git commit, build date, Go version, and OS/arch information injected at compile time)

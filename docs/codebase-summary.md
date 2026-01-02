@@ -4,7 +4,7 @@
 
 Golang migration CLI tool - Phase 1-8 complete. A cross-platform database migration tool with configuration system, validation, migration execution, status tracking, advanced migration control commands (force, goto), and automated build & release pipelines.
 
-**Module:** `github.com/cesc1802/migrate-tool`
+**Module:** `github.com/cesc1802/janus`
 **Go Version:** 1.25.1
 **Total Files:** 40+ files (with Phase 8 build & release automation)
 
@@ -351,7 +351,7 @@ environments:
 ### Makefile Commands
 
 ```bash
-make build              # Build binary to bin/migrate-tool
+make build              # Build binary to bin/janus
 make build-all          # Build for all platforms (linux, darwin, windows; amd64, arm64)
 make run ARGS="..."     # Run with arguments
 make test               # Run all tests with verbose output
@@ -617,7 +617,7 @@ make tag                # Create git version tag (interactive)
 - **Timeout:** 5 minutes
 - **Settings:**
   - gofmt: simplify enabled
-  - goimports: local-prefix for module (github.com/cesc1802/migrate-tool)
+  - goimports: local-prefix for module (github.com/cesc1802/janus)
 - **Issue handling:** No defaults, all issues reported (max-issues-per-linter: 0)
 
 ### Release Process
