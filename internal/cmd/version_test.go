@@ -21,11 +21,11 @@ func TestRunVersion(t *testing.T) {
 	runVersion(nil, nil)
 
 	// Restore stdout
-	w.Close()
+	_ = w.Close()
 	os.Stdout = oldStdout
 
 	var buf bytes.Buffer
-	io.Copy(&buf, r)
+	_, _ = io.Copy(&buf, r)
 	output := buf.String()
 
 	// Verify output contains expected info
@@ -59,11 +59,11 @@ func TestRunVersion_DevDefaults(t *testing.T) {
 	runVersion(nil, nil)
 
 	// Restore stdout
-	w.Close()
+	_ = w.Close()
 	os.Stdout = oldStdout
 
 	var buf bytes.Buffer
-	io.Copy(&buf, r)
+	_, _ = io.Copy(&buf, r)
 	output := buf.String()
 
 	// Verify default values are used

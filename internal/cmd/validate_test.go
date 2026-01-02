@@ -37,7 +37,7 @@ func TestRunValidate_WithValidConfig(t *testing.T) {
 
 	dir := t.TempDir()
 	migrationsDir := filepath.Join(dir, "migrations")
-	os.MkdirAll(migrationsDir, 0755)
+	_ = os.MkdirAll(migrationsDir, 0755)
 
 	// Create a valid migration file
 	migrationContent := `-- Migration: test
@@ -47,7 +47,7 @@ CREATE TABLE test (id INT);
 -- +migrate DOWN
 DROP TABLE IF EXISTS test;
 `
-	os.WriteFile(filepath.Join(migrationsDir, "000001_test.sql"), []byte(migrationContent), 0644)
+	_ = os.WriteFile(filepath.Join(migrationsDir, "000001_test.sql"), []byte(migrationContent), 0644)
 
 	// Setup viper with test config
 	config.ResetForTesting()
@@ -112,7 +112,7 @@ func TestRunValidate_EmptyMigrations(t *testing.T) {
 
 	dir := t.TempDir()
 	migrationsDir := filepath.Join(dir, "migrations")
-	os.MkdirAll(migrationsDir, 0755)
+	_ = os.MkdirAll(migrationsDir, 0755)
 
 	// Create migration with empty UP section
 	migrationContent := `-- Migration: empty_up
@@ -121,7 +121,7 @@ func TestRunValidate_EmptyMigrations(t *testing.T) {
 -- +migrate DOWN
 DROP TABLE IF EXISTS test;
 `
-	os.WriteFile(filepath.Join(migrationsDir, "000001_empty_up.sql"), []byte(migrationContent), 0644)
+	_ = os.WriteFile(filepath.Join(migrationsDir, "000001_empty_up.sql"), []byte(migrationContent), 0644)
 
 	// Setup viper
 	config.ResetForTesting()

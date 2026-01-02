@@ -86,14 +86,14 @@ func runValidate(cmd *cobra.Command, args []string) error {
 			if upErr != nil {
 				emptyUp++
 			} else {
-				upReader.Close()
+				_ = upReader.Close()
 			}
 
 			downReader, _, downErr := driver.ReadDown(v)
 			if downErr != nil {
 				emptyDown++
 			} else {
-				downReader.Close()
+				_ = downReader.Close()
 			}
 
 			v, err = driver.Next(v)

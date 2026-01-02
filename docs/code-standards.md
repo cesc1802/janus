@@ -628,7 +628,33 @@ if err != nil {
 ### Error Wrapping
 - Use `%w` in fmt.Errorf for error chain preservation
 - Include context about what operation failed
-- Never ignore errors with `_ =` unless intentional (document why)
+- Include the failed operation in the message (e.g., "get status:", "migration failed:")
+
+### Resource Cleanup Pattern
+Always use defer for cleanup, with anonymous function wrapper:
+```go
+mg, err := migrator.New(envName)
+if err != nil {
+	return err
+}
+defer func() { _ = mg.Close() }()
+```
+
+**Why anonymous function:** Avoids propagating deferred call evaluation issues and allows explicit error ignore with documentation.
+
+### Handling Non-Critical Errors
+Some errors are safely ignored (e.g., reader close in loops, non-TTY checks):
+```go
+// Reader close failures don't affect loop continuation
+upReader, _, upErr := driver.ReadUp(v)
+if upErr != nil {
+	emptyUp++
+} else {
+	_ = upReader.Close()
+}
+```
+
+**Never ignore** errors that represent actual operation failures.
 
 ### CLI Error Handling
 ```go
@@ -669,6 +695,23 @@ func Execute() error {
 // as we fall back to defaults if config file doesn't exist
 _ = viper.ReadInConfig()
 ```
+
+### Intentional Error Ignoring
+When deferring resource cleanup or handling non-critical errors, use blank identifier pattern:
+```go
+// Defer resource cleanup - Close errors are typically non-critical
+// in cleanup paths and we proceed regardless of error
+defer func() { _ = mg.Close() }()
+
+// In loops - reader close failures are non-critical to loop continuation
+_ = reader.Close()
+```
+
+**Guidelines:**
+- Use `_ = value` only for truly non-critical errors (e.g., cleanup, non-TTY checks)
+- Always use anonymous function wrapper in defer to avoid deferred call issues
+- Document the reason why the error is intentionally ignored
+- Never ignore errors that indicate actual operation failures
 
 ---
 
@@ -774,7 +817,8 @@ go list -json -m all | nancy sleuth  # Requires nancy tool
 ### I/O
 - Batch database operations when possible
 - Use buffered readers for file operations
-- Close file handles properly (use defer)
+- Always defer cleanup: `defer func() { _ = resource.Close() }()`
+- In loops, close readers after processing (errors can be safely ignored)
 
 ### Concurrency
 - Use `sync.Once` for initialization

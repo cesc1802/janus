@@ -64,8 +64,8 @@ environments:
 }
 
 func TestLoad_WithEnvVarExpansion(t *testing.T) {
-	os.Setenv("TEST_LOAD_DB_URL", "postgres://test:5432/testdb")
-	defer os.Unsetenv("TEST_LOAD_DB_URL")
+	_ = os.Setenv("TEST_LOAD_DB_URL", "postgres://test:5432/testdb")
+	defer func() { _ = os.Unsetenv("TEST_LOAD_DB_URL") }()
 
 	cleanup := setupTestConfig(t, `
 environments:

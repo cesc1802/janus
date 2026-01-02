@@ -25,7 +25,7 @@ func TestSuccess(t *testing.T) {
 
 	Success("test message")
 
-	w.Close()
+	_ = w.Close()
 	out, _ := io.ReadAll(r)
 	os.Stdout = oldStdout
 
@@ -45,7 +45,7 @@ func TestWarning(t *testing.T) {
 
 	Warning("warning test")
 
-	w.Close()
+	_ = w.Close()
 	out, _ := io.ReadAll(r)
 	os.Stdout = oldStdout
 
@@ -65,7 +65,7 @@ func TestError(t *testing.T) {
 
 	Error("error test")
 
-	w.Close()
+	_ = w.Close()
 	out, _ := io.ReadAll(r)
 	os.Stderr = oldStderr
 
@@ -85,7 +85,7 @@ func TestInfo(t *testing.T) {
 
 	Info("info test")
 
-	w.Close()
+	_ = w.Close()
 	out, _ := io.ReadAll(r)
 	os.Stdout = oldStdout
 
@@ -127,9 +127,9 @@ func TestColorConstants(t *testing.T) {
 func TestNoColorEnv(t *testing.T) {
 	// Test NO_COLOR environment variable behavior
 	originalNoColor := os.Getenv("NO_COLOR")
-	defer os.Setenv("NO_COLOR", originalNoColor)
+	defer func() { _ = os.Setenv("NO_COLOR", originalNoColor) }()
 
-	os.Setenv("NO_COLOR", "1")
+	_ = os.Setenv("NO_COLOR", "1")
 	if UseColor() {
 		t.Error("UseColor should return false when NO_COLOR is set")
 	}

@@ -32,7 +32,7 @@ DROP TABLE test;`
 	if err != nil {
 		t.Fatalf("Open() error: %v", err)
 	}
-	defer driver.Close()
+	defer func() { _ = driver.Close() }()
 
 	if driver == nil {
 		t.Fatal("Open() returned nil driver")
@@ -210,7 +210,7 @@ DROP TABLE users;`
 	if err != nil {
 		t.Fatalf("ReadUp() error: %v", err)
 	}
-	defer reader.Close()
+	defer func() { _ = reader.Close() }()
 
 	upContent, _ := io.ReadAll(reader)
 	if string(upContent) != "CREATE TABLE users (id INT);" {
@@ -264,7 +264,7 @@ DROP TABLE users;`
 	if err != nil {
 		t.Fatalf("ReadDown() error: %v", err)
 	}
-	defer reader.Close()
+	defer func() { _ = reader.Close() }()
 
 	downContent, _ := io.ReadAll(reader)
 	if string(downContent) != "DROP TABLE users;" {

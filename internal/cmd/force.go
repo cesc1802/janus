@@ -40,7 +40,7 @@ func runForce(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	defer mg.Close()
+	defer func() { _ = mg.Close() }()
 
 	// Get current status for context
 	status, err := mg.Status()

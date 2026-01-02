@@ -29,7 +29,7 @@ func runDown(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	defer mg.Close()
+	defer func() { _ = mg.Close() }()
 
 	// Get status before rollback
 	status, err := mg.Status()

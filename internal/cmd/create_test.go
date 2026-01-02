@@ -50,8 +50,8 @@ func TestGetNextSequentialVersion(t *testing.T) {
 
 	t.Run("with existing files", func(t *testing.T) {
 		dir := t.TempDir()
-		os.WriteFile(filepath.Join(dir, "000001_test.sql"), []byte{}, 0644)
-		os.WriteFile(filepath.Join(dir, "000005_test.sql"), []byte{}, 0644)
+		_ = os.WriteFile(filepath.Join(dir, "000001_test.sql"), []byte{}, 0644)
+		_ = os.WriteFile(filepath.Join(dir, "000005_test.sql"), []byte{}, 0644)
 
 		v := getNextSequentialVersion(dir)
 		if v != "000006" {
@@ -61,8 +61,8 @@ func TestGetNextSequentialVersion(t *testing.T) {
 
 	t.Run("ignores non-matching files", func(t *testing.T) {
 		dir := t.TempDir()
-		os.WriteFile(filepath.Join(dir, "readme.md"), []byte{}, 0644)
-		os.WriteFile(filepath.Join(dir, "000003_test.sql"), []byte{}, 0644)
+		_ = os.WriteFile(filepath.Join(dir, "readme.md"), []byte{}, 0644)
+		_ = os.WriteFile(filepath.Join(dir, "000003_test.sql"), []byte{}, 0644)
 
 		v := getNextSequentialVersion(dir)
 		if v != "000004" {
@@ -93,7 +93,7 @@ func TestRunCreate_Integration(t *testing.T) {
 
 	dir := t.TempDir()
 	migrationsDir := filepath.Join(dir, "migrations")
-	os.MkdirAll(migrationsDir, 0755)
+	_ = os.MkdirAll(migrationsDir, 0755)
 
 	// Test that runCreate creates a file
 	// Note: This test uses the default migrations path from viper

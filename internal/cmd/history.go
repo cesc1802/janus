@@ -27,7 +27,7 @@ func runHistory(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	defer mg.Close()
+	defer func() { _ = mg.Close() }()
 
 	status, err := mg.Status()
 	if err != nil {
