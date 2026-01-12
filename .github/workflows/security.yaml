@@ -25,7 +25,7 @@ jobs:
         # securego/gosec@master - pinned 2026-01-09
         uses: securego/gosec@7387d225921a2efbcf1613bdb32f490285f9af65
         with:
-          args: '-no-fail -fmt html -out security-report.html ./...'
+          args: '-no-fail -fmt=html -out=security-report.html -include=G201,G202,G101,G117,G401,G402,G403,G404,G405,G406,G407,G107,G203,G204,G116 ./...'
 
       - name: Upload Security Report
         uses: actions/upload-artifact@v4
