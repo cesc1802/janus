@@ -35,7 +35,7 @@ jobs:
           retention-days: 30
 
       - name: Discord Status Notification
-        if: always() && secrets.DISCORD_WEBHOOK != ''
+        if: ${{ always() && secrets.DISCORD_WEBHOOK != '' }}
         # sarisia/actions-status-discord@v1.15.4 - pinned 2026-01-09
         uses: sarisia/actions-status-discord@eb045afee445dc055c18d3d90bd0f244fd062708
         with:
@@ -48,7 +48,7 @@ jobs:
           username: "Janus CI"
 
       - name: Upload Report to Discord
-        if: success() && secrets.DISCORD_WEBHOOK != ''
+        if: ${{ success() && secrets.DISCORD_WEBHOOK != '' }}
         # sinshutu/upload-to-discord@v2.0.0
         uses: sinshutu/upload-to-discord@b96d2d1a622c77379e8c06df508fb7eae56ae631
         env:
