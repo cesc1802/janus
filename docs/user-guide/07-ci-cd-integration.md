@@ -143,6 +143,69 @@ jobs:
           janus up --env=prod --auto-approve
 ```
 
+## Security Scanning
+
+### Gosec Security Scan (GitHub Actions)
+
+Automated security scanning for Go vulnerabilities using Gosec.
+
+**Triggers:**
+- Push to main/master branches
+- Pull requests to main/master
+- Weekly schedule (Sunday 00:00 UTC)
+- Manual dispatch via workflow_dispatch
+
+**Workflow file:** `.github/workflows/security.yaml`
+
+**Features:**
+- Generates HTML security report
+- Uploads report as workflow artifact (30-day retention)
+- Posts Discord notification with scan status
+- Uploads HTML report to Discord channel (requires `DISCORD_WEBHOOK`)
+
+**Setup Prerequisites:**
+
+1. **GitHub Repository Secrets** (optional for Discord notifications):
+   - Add `DISCORD_WEBHOOK` secret in repository settings
+   - Settings → Secrets and variables → Actions → New repository secret
+   - Value: Discord webhook URL from your server
+
+2. **Discord Channel Setup** (optional):
+   - Create Discord channel for CI notifications
+   - Get webhook URL: Channel Settings → Integrations → Webhooks → New Webhook
+
+**Report Access:**
+- GitHub Actions: Workflow run → Artifacts → security-report.zip
+- Extract: `unzip security-report.zip` to get `security-report.html`
+- View in browser: `open security-report.html`
+
+**Discord Notification:**
+- Status shows: ✓ Success or ✗ Failed
+- Branch & commit information included
+- Report file attached (requires successful scan)
+
+**Example Workflow Run:**
+```
+Push to main branch
+  ↓
+Security scan triggered
+  ↓
+Gosec scans ./... with -no-fail flag
+  ↓
+HTML report generated → security-report.html
+  ↓
+Report uploaded as artifact (30 days)
+  ↓
+Discord notification sent with status
+  ↓
+Report file uploaded to Discord (if successful)
+```
+
+**Manual Trigger:**
+From GitHub Actions tab: Security Scan workflow → Run workflow → main/master
+
+---
+
 ## GitLab CI
 
 ### Basic Pipeline

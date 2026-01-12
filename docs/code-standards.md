@@ -977,6 +977,62 @@ golangci-lint run  # Run golangci-lint directly
 
 ---
 
+## Security Scanning
+
+### Gosec Security Scanner (Phase 01 - Completion)
+
+Automated security scanning for Go vulnerabilities. Runs on every push/PR and weekly via GitHub Actions.
+
+**Workflow Location:** `.github/workflows/security.yaml`
+
+**Triggers:**
+- Push to main/master
+- Pull requests to main/master
+- Weekly schedule (Sunday 00:00 UTC)
+- Manual dispatch
+
+**Features:**
+- Scans entire codebase with `gosec ./...`
+- Generates HTML security report
+- Stores artifact for 30 days
+- Optional Discord webhook notifications
+
+**Report Access:**
+1. GitHub Actions tab → Security Scan workflow
+2. Click workflow run
+3. Download "security-report" artifact
+4. Extract and open `security-report.html` in browser
+
+**Discord Notifications** (optional):
+- Requires `DISCORD_WEBHOOK` repository secret
+- Posts scan status and uploads report file
+- See [Deployment Guide](../docs/deployment-guide.md#github-repository-secrets-optional) for setup
+
+**Running Locally:**
+```bash
+# Install gosec
+go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+# Scan codebase
+gosec ./...
+
+# Generate HTML report
+gosec -fmt html -out report.html ./...
+```
+
+**Common Findings:**
+- SQL injection risks (use prepared statements)
+- Weak crypto (avoid deprecated algorithms)
+- Hardcoded secrets (use environment variables)
+- Path traversal (validate and sanitize paths)
+
+**Security Patterns:**
+- [File Security Patterns](./code-standards.md#file-security-patterns-phase-5) - Path validation, file permissions, name sanitization
+- [Error Handling](./code-standards.md#error-handling) - Avoid exposing sensitive info in errors
+- [Configuration Secrets](./code-standards.md#configuration-secrets) - Environment variables for credentials
+
+---
+
 ## Resources & Tools
 
 - **Go Docs:** https://golang.org/doc/
@@ -985,4 +1041,6 @@ golangci-lint run  # Run golangci-lint directly
 - **Viper Docs:** https://github.com/spf13/viper
 - **golangci-lint:** https://golangci-lint.run/
 - **golangci-lint v2.7.2:** https://golangci-lint.run/usage/
+- **Gosec:** https://github.com/securego/gosec
+- **OWASP Go Security:** https://owasp.org/www-project-secure-coding-practices/
 

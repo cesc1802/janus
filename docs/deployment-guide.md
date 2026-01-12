@@ -529,8 +529,46 @@ rm ~/.local/bin/janus
 
 ---
 
+---
+
+## CI/CD Pipeline Prerequisites
+
+### GitHub Repository Secrets (Optional)
+
+For CI/CD workflows that require external service integrations:
+
+**Discord Notifications** (Security Scan workflow):
+1. Go to repository Settings → Secrets and variables → Actions
+2. Click "New repository secret"
+3. Name: `DISCORD_WEBHOOK`
+4. Value: Your Discord webhook URL
+5. Save
+
+To obtain Discord webhook URL:
+- Go to Discord server channel
+- Channel Settings → Integrations → Webhooks
+- Click "New Webhook" and copy URL
+
+Without `DISCORD_WEBHOOK`, security scan workflow still runs but skips Discord notifications.
+
+### GitHub Actions Workflows
+
+Workflows location: `.github/workflows/`
+
+**Available workflows:**
+- `security.yaml` - Gosec security scanning (see [CI/CD Integration Guide](./user-guide/07-ci-cd-integration.md#security-scanning))
+- Migration workflows - Database migration automation
+
+### Workflow Artifacts
+
+GitHub Actions artifacts stored for 30 days by default. Access in:
+- Repository → Actions tab → Workflow run → Artifacts section
+
+---
+
 ## See Also
 
 - [README.md](../README.md) - Quick start guide
 - [Configuration Guide](./configuration.md) - Database configuration
 - [Architecture Documentation](./system-architecture.md) - System design
+- [CI/CD Integration Guide](./user-guide/07-ci-cd-integration.md) - Workflow examples and best practices
