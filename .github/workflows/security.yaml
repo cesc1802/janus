@@ -1,0 +1,59 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  schedule:
+    - cron: '0 0 * * 0' # Weekly: Sunday 00:00 UTC
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Run Gosec Security Scanner
+        # securego/gosec@master - pinned 2026-01-09
+        uses: securego/gosec@7387d225921a2efbcf1613bdb32f490285f9af65
+        with:
+          args: '-no-fail -fmt=html -out=security-report.html -include=G201,G202,G101,G117,G401,G402,G403,G404,G405,G406,G407,G107,G203,G204,G116 ./...'
+
+      - name: Upload Security Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: security-report.html
+          retention-days: 30
+
+      - name: Discord Status Notification
+        if: always()
+        continue-on-error: true
+        # sarisia/actions-status-discord@v1.15.4 - pinned 2026-01-09
+        uses: sarisia/actions-status-discord@eb045afee445dc055c18d3d90bd0f244fd062708
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "Security Scan"
+          description: |
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** `${{ github.sha }}`
+            **Report:** Check workflow artifacts
+          username: "Janus CI"
+
+      - name: Upload Report to Discord
+        if: success()
+        continue-on-error: true
+        # sinshutu/upload-to-discord@v2.0.0
+        uses: sinshutu/upload-to-discord@b96d2d1a622c77379e8c06df508fb7eae56ae631
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: ./security-report.html
