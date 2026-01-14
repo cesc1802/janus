@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"text/tabwriter"
 
 	"github.com/spf13/cobra"
 
@@ -13,7 +15,7 @@ var historyLimit int
 var historyCmd = &cobra.Command{
 	Use:   "history",
 	Short: "Show migration history",
-	Long:  `Display list of migrations with their applied status.`,
+	Long:  `Display list of migrations with their applied status and history.`,
 	RunE:  runHistory,
 }
 
@@ -36,6 +38,25 @@ func runHistory(cmd *cobra.Command, args []string) error {
 
 	migrations := mg.GetMigrationList(status.Version)
 
+	// Fetch rich history
+	historyLogs, err := mg.History().GetHistory(0)
+	if err != nil {
+		// If history table doesn't exist or fails, just warn but continue?
+		// Or maybe just show empty history.
+		fmt.Fprintf(os.Stderr, "Warning: could not fetch detailed history: %v\n", err)
+	}
+
+	// Map version -> latest successful UP entry
+	historyMap := make(map[uint]migrator.HistoryEntry)
+	for _, entry := range historyLogs {
+		if entry.Action == "up" && entry.Success {
+			// Since logs are ordered DESC (latest first), the first one we see is the latest
+			if _, exists := historyMap[entry.Version]; !exists {
+				historyMap[entry.Version] = entry
+			}
+		}
+	}
+
 	fmt.Printf("Migration History (env: %s)\n", envName)
 	fmt.Println("----------------------------------------")
 
@@ -44,6 +65,9 @@ func runHistory(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
+	fmt.Fprintln(w, "STATUS\tVERSION\tNAME\tAPPLIED AT\tDURATION")
+
 	// Show up to limit migrations
 	shown := 0
 	for _, m := range migrations {
@@ -51,13 +75,22 @@ func runHistory(cmd *cobra.Command, args []string) error {
 			break
 		}
 
-		marker := "[ ]"
+		statusMarker := "[ ]"
+		appliedAt := "-"
+		duration := "-"
+
 		if m.Applied {
-			marker = "[x]"
+			statusMarker = "[x]"
+			if entry, ok := historyMap[m.Version]; ok {
+				appliedAt = entry.StartTime.Format("2006-01-02 15:04:05")
+				duration = entry.Duration.String()
+			}
 		}
-		fmt.Printf("  %s %06d - %s\n", marker, m.Version, m.Name)
+
+		fmt.Fprintf(w, "  %s\t%06d\t%s\t%s\t%s\n", statusMarker, m.Version, m.Name, appliedAt, duration)
 		shown++
 	}
+	w.Flush()
 
 	if len(migrations) > historyLimit {
 		fmt.Printf("\n  ... and %d more (use --limit to show more)\n", len(migrations)-historyLimit)
