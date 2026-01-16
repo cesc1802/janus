@@ -47,7 +47,7 @@ func runHistory(cmd *cobra.Command, args []string) error {
 	}
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-	fmt.Fprintln(w, "VERSION\tNAME\tACTION\tAPPLIED AT\tDURATION")
+	_, _ = fmt.Fprintln(w, "VERSION\tNAME\tACTION\tAPPLIED AT\tDURATION")
 
 	// Show up to limit history entries (chronologically, latest first)
 	shown := 0
@@ -55,7 +55,7 @@ func runHistory(cmd *cobra.Command, args []string) error {
 		if shown >= historyLimit {
 			break
 		}
-		fmt.Fprintf(w, "%06d\t%s\t%s\t%s\t%s\n",
+		_, _ = fmt.Fprintf(w, "%06d\t%s\t%s\t%s\t%s\n",
 			entry.Version,
 			entry.Name,
 			entry.Action,
@@ -64,7 +64,7 @@ func runHistory(cmd *cobra.Command, args []string) error {
 		)
 		shown++
 	}
-	w.Flush()
+	_ = w.Flush()
 
 	if len(historyLogs) > historyLimit {
 		fmt.Printf("\n  ... and %d more (use --limit to show more)\n", len(historyLogs)-historyLimit)

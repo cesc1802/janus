@@ -46,7 +46,7 @@ func NewHistoryStore(databaseURL string) (*HistoryStore, error) {
 	}
 
 	if err := db.Ping(); err != nil {
-		db.Close()
+		_ = db.Close()
 		return nil, fmt.Errorf("ping db: %w", err)
 	}
 
@@ -161,7 +161,7 @@ func (h *HistoryStore) GetHistory(version uint) ([]HistoryEntry, error) {
 		}
 		return nil, fmt.Errorf("query history: %w", err)
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	var entries []HistoryEntry
 	for rows.Next() {
