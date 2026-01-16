@@ -66,7 +66,7 @@ func runHistory(cmd *cobra.Command, args []string) error {
 	}
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-	fmt.Fprintln(w, "STATUS\tVERSION\tNAME\tAPPLIED AT\tDURATION")
+	fmt.Fprintln(w, "STATUS\tVERSION\tNAME\tACTION\tAPPLIED AT\tDURATION")
 
 	// Show up to limit migrations
 	shown := 0
@@ -76,18 +76,20 @@ func runHistory(cmd *cobra.Command, args []string) error {
 		}
 
 		statusMarker := "[ ]"
+		action := "-"
 		appliedAt := "-"
 		duration := "-"
 
 		if m.Applied {
 			statusMarker = "[x]"
 			if entry, ok := historyMap[m.Version]; ok {
+				action = entry.Action
 				appliedAt = entry.StartTime.Format("2006-01-02 15:04:05")
 				duration = entry.Duration.String()
 			}
 		}
 
-		fmt.Fprintf(w, "  %s\t%06d\t%s\t%s\t%s\n", statusMarker, m.Version, m.Name, appliedAt, duration)
+		fmt.Fprintf(w, "  %s\t%06d\t%s\t%s\t%s\t%s\n", statusMarker, m.Version, m.Name, action, appliedAt, duration)
 		shown++
 	}
 	w.Flush()

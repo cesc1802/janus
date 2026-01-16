@@ -115,7 +115,7 @@ Current version: none (clean slate)
 
 ## View History
 
-List migrations with applied status:
+List migrations with applied status and execution details:
 
 ```bash
 janus history --env=dev
@@ -125,14 +125,26 @@ Output:
 ```
 Migration History (env: dev)
 ----------------------------------------
-  [x] 000001 - create_users
-  [x] 000002 - add_email_index
-  [x] 000003 - create_posts
-  [ ] 000004 - add_post_tags
-  [ ] 000005 - create_comments
+STATUS  VERSION  NAME              ACTION  APPLIED AT           DURATION
+  [x]   000001   create_users      up      2025-01-15 14:32:05  2.1s
+  [x]   000002   add_email_index   up      2025-01-15 14:32:07  1.8s
+  [x]   000003   create_posts      up      2025-01-15 14:32:09  3.2s
+  [ ]   000004   add_post_tags     -       -                    -
+  [ ]   000005   create_comments   -       -                    -
 
   ... and 10 more (use --limit to show more)
 ```
+
+### History Output Columns
+
+| Column | Description |
+|--------|-------------|
+| STATUS | Applied [x] or pending [ ] |
+| VERSION | Migration version number |
+| NAME | Migration file name |
+| ACTION | Action performed (up/down) or - if not applied |
+| APPLIED AT | Timestamp when migration was applied |
+| DURATION | Time taken to execute migration |
 
 ### Show More
 

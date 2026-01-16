@@ -194,7 +194,7 @@ Fix with: migrate-tool force 5 --env=prod
 ---
 
 #### history
-Display list of available migrations with applied status for a specific environment.
+Display list of available migrations with applied status, action, and execution details for a specific environment.
 
 ```bash
 janus history [--limit=N] [--env=ENV] [--config=PATH]
@@ -208,9 +208,10 @@ janus history [--limit=N] [--env=ENV] [--config=PATH]
 1. Validates environment configuration
 2. Gets current version from database
 3. Loads all migrations from source
-4. Marks each migration as applied [x] or pending [ ]
-5. Shows up to limit migrations
-6. Displays pagination message if more exist
+4. Fetches migration history from database
+5. Marks each migration as applied [x] or pending [ ]
+6. Shows up to limit migrations with execution details
+7. Displays pagination message if more exist
 
 **Examples:**
 ```bash
@@ -228,14 +229,23 @@ janus history --limit=999 --env=dev
 ```
 Migration History (env: dev)
 ----------------------------------------
-  [x] 000001 - create_users
-  [x] 000002 - add_email_index
-  [x] 000003 - create_posts
-  [ ] 000004 - add_post_tags
-  [ ] 000005 - create_comments
+STATUS  VERSION  NAME              ACTION  APPLIED AT           DURATION
+  [x]   000001   create_users      up      2025-01-15 14:32:05  2.1s
+  [x]   000002   add_email_index   up      2025-01-15 14:32:07  1.8s
+  [x]   000003   create_posts      up      2025-01-15 14:32:09  3.2s
+  [ ]   000004   add_post_tags     -       -                    -
+  [ ]   000005   create_comments   -       -                    -
 
   ... and 10 more (use --limit to show more)
 ```
+
+**Output Columns:**
+- `STATUS` - Applied [x] or pending [ ]
+- `VERSION` - Migration version number
+- `NAME` - Migration file name
+- `ACTION` - Action performed (up/down) or - if not applied
+- `APPLIED AT` - Timestamp when migration was applied (format: YYYY-MM-DD HH:MM:SS)
+- `DURATION` - Time taken to execute migration
 
 ---
 
