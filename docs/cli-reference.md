@@ -194,33 +194,31 @@ Fix with: migrate-tool force 5 --env=prod
 ---
 
 #### history
-Display list of available migrations with applied status for a specific environment.
+Display migration history with action and execution details for a specific environment.
 
 ```bash
 janus history [--limit=N] [--env=ENV] [--config=PATH]
 ```
 
 **Flags:**
-- `--limit` - Number of migrations to show (default: 10)
+- `--limit` - Number of history entries to show (default: 10)
 - `--env` - Target environment name (default: dev)
 
 **Behavior:**
 1. Validates environment configuration
-2. Gets current version from database
-3. Loads all migrations from source
-4. Marks each migration as applied [x] or pending [ ]
-5. Shows up to limit migrations
-6. Displays pagination message if more exist
+2. Fetches migration history from database (ordered by start_time DESC - latest first)
+3. Shows up to limit history entries with execution details
+4. Displays pagination message if more exist
 
 **Examples:**
 ```bash
-# Show last 10 migrations (default)
+# Show last 10 history entries (default)
 janus history --env=dev
 
-# Show last 20 migrations
+# Show last 20 history entries
 janus history --limit=20 --env=staging
 
-# Show all migrations (large limit)
+# Show all history (large limit)
 janus history --limit=999 --env=dev
 ```
 
@@ -228,14 +226,25 @@ janus history --limit=999 --env=dev
 ```
 Migration History (env: dev)
 ----------------------------------------
-  [x] 000001 - create_users
-  [x] 000002 - add_email_index
-  [x] 000003 - create_posts
-  [ ] 000004 - add_post_tags
-  [ ] 000005 - create_comments
+VERSION  NAME              ACTION  APPLIED AT           DURATION
+000003   create_posts      down    2025-01-15 14:32:15  1.5s
+000002   add_email_index   up      2025-01-15 14:32:07  1.8s
+000001   create_users      up      2025-01-15 14:32:05  2.1s
 
   ... and 10 more (use --limit to show more)
 ```
+
+**Output Columns:**
+- `VERSION` - Migration version number
+- `NAME` - Migration file name
+- `ACTION` - Action performed (up or down)
+- `APPLIED AT` - Timestamp when migration was executed (format: YYYY-MM-DD HH:MM:SS)
+- `DURATION` - Time taken to execute migration
+
+**Notes:**
+- Shows both UP and DOWN actions chronologically
+- Latest entries displayed first
+- Only displays executed history entries (no pending migrations)
 
 ---
 
