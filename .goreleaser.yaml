@@ -68,7 +68,7 @@ changelog:
 release:
   github:
     owner: cesc1802
-    name: migration-tool
+    name: janus
   draft: true
   prerelease: auto
   name_template: "v{{ .Version }}"
@@ -77,18 +77,18 @@ release:
     - glob: scripts/install.ps1
 
   header: |
-    ## Migration Tool {{ .Version }}
+    ## Janus {{ .Version }}
 
     ### Quick Install
 
     **Linux/macOS:**
     ```bash
-    curl -fsSL https://github.com/cesc1802/migration-tool/releases/download/v{{ .Version }}/install.sh | sh
+    curl -fsSL https://github.com/cesc1802/janus/releases/download/v{{ .Version }}/install.sh | sh
     ```
-    
+
     **Windows (PowerShell):**
     ```powershell
-    irm https://github.com/cesc1802/migration-tool/releases/download/v{{ .Version }}/install.ps1 | iex
+    irm https://github.com/cesc1802/janus/releases/download/v{{ .Version }}/install.ps1 | iex
     ```
 
     ### Manual Installation
@@ -101,7 +101,7 @@ release:
     ```
   footer: |
     ---
-    Full Changelog: https://github.com/cesc1802/migration-tool/compare/{{ .PreviousTag }}...{{ .Tag }}
+    Full Changelog: https://github.com/cesc1802/janus/compare/{{ .PreviousTag }}...{{ .Tag }}
 
 announce:
   skip: true
