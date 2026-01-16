@@ -115,7 +115,7 @@ Current version: none (clean slate)
 
 ## View History
 
-List migrations with applied status and execution details:
+View migration execution history with all up/down actions:
 
 ```bash
 janus history --env=dev
@@ -125,12 +125,10 @@ Output:
 ```
 Migration History (env: dev)
 ----------------------------------------
-STATUS  VERSION  NAME              ACTION  APPLIED AT           DURATION
-  [x]   000001   create_users      up      2025-01-15 14:32:05  2.1s
-  [x]   000002   add_email_index   up      2025-01-15 14:32:07  1.8s
-  [x]   000003   create_posts      up      2025-01-15 14:32:09  3.2s
-  [ ]   000004   add_post_tags     -       -                    -
-  [ ]   000005   create_comments   -       -                    -
+VERSION  NAME              ACTION  APPLIED AT           DURATION
+000003   create_posts      down    2025-01-15 14:32:15  1.5s
+000002   add_email_index   up      2025-01-15 14:32:07  1.8s
+000001   create_users      up      2025-01-15 14:32:05  2.1s
 
   ... and 10 more (use --limit to show more)
 ```
@@ -139,22 +137,27 @@ STATUS  VERSION  NAME              ACTION  APPLIED AT           DURATION
 
 | Column | Description |
 |--------|-------------|
-| STATUS | Applied [x] or pending [ ] |
 | VERSION | Migration version number |
 | NAME | Migration file name |
-| ACTION | Action performed (up/down) or - if not applied |
-| APPLIED AT | Timestamp when migration was applied |
+| ACTION | Action performed (up or down) |
+| APPLIED AT | Timestamp when migration was executed |
 | DURATION | Time taken to execute migration |
 
 ### Show More
 
 ```bash
-# Show last 20 migrations
+# Show last 20 history entries
 janus history --limit=20 --env=dev
 
-# Show all migrations
+# Show all history
 janus history --limit=999 --env=dev
 ```
+
+### History Features
+
+- Shows both UP and DOWN actions chronologically
+- Latest entries displayed first
+- Provides complete audit trail of all migrations executed
 
 ## Go to Specific Version (goto)
 

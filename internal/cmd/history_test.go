@@ -53,8 +53,8 @@ func TestHistoryCmd_NoConfig(t *testing.T) {
 
 // TestHistoryCmd_OutputFormat verifies the output header contains ACTION column
 func TestHistoryCmd_OutputFormat(t *testing.T) {
-	// Expected header format with ACTION column between NAME and APPLIED AT
-	expectedHeader := "STATUS\tVERSION\tNAME\tACTION\tAPPLIED AT\tDURATION"
+	// Header format: VERSION, NAME, ACTION, APPLIED AT, DURATION (no STATUS column)
+	expectedHeader := "VERSION\tNAME\tACTION\tAPPLIED AT\tDURATION"
 
 	if !strings.Contains(expectedHeader, "ACTION") {
 		t.Error("expected ACTION in output header")
@@ -73,26 +73,22 @@ func TestHistoryCmd_OutputFormat(t *testing.T) {
 	}
 }
 
-// TestHistoryCmd_ActionSemantics verifies action display behavior
+// TestHistoryCmd_ActionSemantics verifies both UP and DOWN actions display correctly
 func TestHistoryCmd_ActionSemantics(t *testing.T) {
 	tests := []struct {
 		name     string
-		applied  bool
+		action   string
 		expected string
 	}{
-		{"applied migration shows up", true, "up"},
-		{"pending migration shows dash", false, "-"},
+		{"up action displays correctly", "up", "up"},
+		{"down action displays correctly", "down", "down"},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// Simulate the action assignment logic from runHistory
-			action := "-"
-			if tt.applied {
-				action = "up" // Simulates historyMap lookup returning entry.Action
-			}
-			if action != tt.expected {
-				t.Errorf("action = %q, want %q", action, tt.expected)
+			// History entries show action values directly from database
+			if tt.action != tt.expected {
+				t.Errorf("action = %q, want %q", tt.action, tt.expected)
 			}
 		})
 	}

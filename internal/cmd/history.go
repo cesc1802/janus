@@ -31,71 +31,43 @@ func runHistory(cmd *cobra.Command, args []string) error {
 	}
 	defer func() { _ = mg.Close() }()
 
-	status, err := mg.Status()
-	if err != nil {
-		return err
-	}
-
-	migrations := mg.GetMigrationList(status.Version)
-
-	// Fetch rich history
+	// Fetch history (ordered by start_time DESC - latest first)
 	historyLogs, err := mg.History().GetHistory(0)
 	if err != nil {
-		// If history table doesn't exist or fails, just warn but continue?
-		// Or maybe just show empty history.
-		fmt.Fprintf(os.Stderr, "Warning: could not fetch detailed history: %v\n", err)
-	}
-
-	// Map version -> latest successful UP entry
-	historyMap := make(map[uint]migrator.HistoryEntry)
-	for _, entry := range historyLogs {
-		if entry.Action == "up" && entry.Success {
-			// Since logs are ordered DESC (latest first), the first one we see is the latest
-			if _, exists := historyMap[entry.Version]; !exists {
-				historyMap[entry.Version] = entry
-			}
-		}
+		fmt.Fprintf(os.Stderr, "Warning: could not fetch history: %v\n", err)
+		historyLogs = []migrator.HistoryEntry{}
 	}
 
 	fmt.Printf("Migration History (env: %s)\n", envName)
 	fmt.Println("----------------------------------------")
 
-	if len(migrations) == 0 {
-		fmt.Println("  No migrations found")
+	if len(historyLogs) == 0 {
+		fmt.Println("  No migration history found")
 		return nil
 	}
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-	fmt.Fprintln(w, "STATUS\tVERSION\tNAME\tACTION\tAPPLIED AT\tDURATION")
+	fmt.Fprintln(w, "VERSION\tNAME\tACTION\tAPPLIED AT\tDURATION")
 
-	// Show up to limit migrations
+	// Show up to limit history entries (chronologically, latest first)
 	shown := 0
-	for _, m := range migrations {
+	for _, entry := range historyLogs {
 		if shown >= historyLimit {
 			break
 		}
-
-		statusMarker := "[ ]"
-		action := "-"
-		appliedAt := "-"
-		duration := "-"
-
-		if m.Applied {
-			statusMarker = "[x]"
-			if entry, ok := historyMap[m.Version]; ok {
-				action = entry.Action
-				appliedAt = entry.StartTime.Format("2006-01-02 15:04:05")
-				duration = entry.Duration.String()
-			}
-		}
-
-		fmt.Fprintf(w, "  %s\t%06d\t%s\t%s\t%s\t%s\n", statusMarker, m.Version, m.Name, action, appliedAt, duration)
+		fmt.Fprintf(w, "%06d\t%s\t%s\t%s\t%s\n",
+			entry.Version,
+			entry.Name,
+			entry.Action,
+			entry.StartTime.Format("2006-01-02 15:04:05"),
+			entry.Duration.String(),
+		)
 		shown++
 	}
 	w.Flush()
 
-	if len(migrations) > historyLimit {
-		fmt.Printf("\n  ... and %d more (use --limit to show more)\n", len(migrations)-historyLimit)
+	if len(historyLogs) > historyLimit {
+		fmt.Printf("\n  ... and %d more (use --limit to show more)\n", len(historyLogs)-historyLimit)
 	}
 
 	return nil
